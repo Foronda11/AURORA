@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script src="./image-slot.js"></script>
+<style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#0B5D52;background:#063E38;-webkit-font-smoothing:antialiased}
+  a{color:#0EA394;text-decoration:none}
+  a:hover{color:#0D7A6C}
+  h1,h2,h3,h4{font-family:'Plus Jakarta Sans',sans-serif;margin:0;color:#0B5D52;letter-spacing:-.01em}
+  p{margin:0}
+  input,select,textarea,button{font-family:inherit}
+  ::selection{background:#FFE27A;color:#0B5D52}
+  [data-lucide]{width:1em;height:1em;stroke-width:2}
+  @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.35}}
+  @keyframes spinSlow{to{transform:rotate(360deg)}}
+  .reveal{animation:fadeUp .7s cubic-bezier(.2,.7,.2,1) both}
+  .svc-card{transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+  .svc-card:hover{transform:translateY(-8px);box-shadow:0 24px 50px rgba(13,122,108,.18)}
+  .svc-card:hover .svc-arrow{transform:translate(3px,-3px)}
+  .plan-card{transition:transform .35s,box-shadow .35s}
+  .plan-card:hover{transform:translateY(-6px)}
+  .benefit-card{position:relative;overflow:hidden;text-decoration:none;display:block;border:1.5px solid transparent;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s}
+  .benefit-card:hover{transform:translateY(-8px);box-shadow:0 24px 50px rgba(13,122,108,.18)!important;border-color:rgba(29,191,166,.55)}
+  .benefit-card .b-num{position:absolute;top:10px;right:18px;font-family:'Plus Jakarta Sans';font-weight:800;font-size:38px;color:rgba(13,122,108,.07);line-height:1;pointer-events:none}
+  .benefit-card .b-icon{transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+  .benefit-card:hover .b-icon{transform:scale(1.1) rotate(-6deg)}
+  .lbtn{transition:transform .25s,box-shadow .25s,filter .25s}
+  .lbtn:hover{transform:translateY(-2px);filter:brightness(1.03)}
+  .lbtn:hover .chip{transform:rotate(-15deg)}
+  .lbtn:active{transform:translateY(0)}
+  .chip{transition:transform .3s}
+  .ghost:hover{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.6)}
+  .navpill{transition:color .2s,background .2s}
+  .navpill:hover{color:#1DBFA6}
+  .nav-dropdown{position:relative}
+  .nav-dropdown-panel{position:absolute;top:100%;left:50%;transform:translateX(-50%);width:280px;padding-top:14px;opacity:0;visibility:hidden;transition:opacity .2s,transform .2s;z-index:110}
+  .nav-dropdown-panel-inner{background:#fff;border-radius:18px;padding:12px;box-shadow:0 24px 50px rgba(11,93,82,.28);transform:translateY(8px);transition:transform .2s}
+  .nav-dropdown-panel a:hover{background:#F3FBFA}
+  .nav-dropdown:hover .nav-dropdown-panel{opacity:1;visibility:visible}
+  .nav-dropdown:hover .nav-dropdown-panel-inner{transform:translateY(0)}
+  .field{transition:border-color .2s,box-shadow .2s,background .2s}
+  .field:focus{outline:none;border-color:#1DBFA6;box-shadow:0 0 0 4px rgba(29,191,166,.22);background:#fff}
+  .faq-q{transition:background .2s}
+  .faq-q:hover{background:#FFF7DC}
+  .step-card{transition:transform .3s,box-shadow .3s}
+  .step-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(13,122,108,.14)}
+  .wa{transition:transform .25s,box-shadow .25s}
+  .wa:hover{transform:scale(1.08)}
+  .socbtn:hover{background:#1DBFA6;color:#0B5D52}
+  .nav-social a{transition:transform .2s,filter .2s}
+  .nav-social a:hover{transform:translateY(-2px);filter:brightness(1.12)}
+  @keyframes glassShine{0%,100%{background-position:0% 0%}50%{background-position:100% 100%}}
+  @keyframes glassEdge{0%,100%{opacity:.35}50%{opacity:1}}
+  .glass-card{position:relative;overflow:hidden;backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%)}
+  .glass-card::before{content:'';position:absolute;inset:-60%;background:linear-gradient(135deg,rgba(255,255,255,.4) 0%,rgba(255,255,255,.08) 18%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 62%,rgba(255,255,255,.08) 78%,rgba(255,255,255,.4) 100%);background-size:250% 250%;animation:glassShine 8s ease-in-out infinite;pointer-events:none}
+  .glass-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.6),rgba(255,255,255,0));animation:glassEdge 4.5s ease-in-out infinite;pointer-events:none}
+  .glass-dark{background:rgba(11,93,82,.55)!important;backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%)}
+  @keyframes stepIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes modalPop{from{opacity:0;transform:scale(.94) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+  .step-reveal{animation:stepIn .4s cubic-bezier(.2,.7,.2,1) both}
+  .bk-card{animation:modalPop .35s cubic-bezier(.2,.7,.2,1) both}
+  .bk-tab,.bk-select-card,.bk-step-circle,.bk-step-label{transition:all .25s cubic-bezier(.2,.7,.2,1)}
+  @keyframes headerIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+  .topbar{animation:headerIn .7s cubic-bezier(.16,1,.3,1) both}
+  @media(max-width:960px){
+    .nav-links{display:none!important}
+    .nav-cta-text{display:none!important}
+    .nav-login-btn{display:none!important}
+    .nav-social{display:none!important}
+    .nav-cta{padding:6px!important}
+    .nav-burger{display:flex!important}
+    .hero-cards{grid-template-columns:1fr!important}
+    .two-col{grid-template-columns:1fr!important}
+    .book-grid{grid-template-columns:1fr!important}
+    .steps-row{grid-template-columns:1fr 1fr!important}
+    .foot-grid{grid-template-columns:1fr 1fr!important}
+    .benefits-grid{grid-template-columns:1fr 1fr!important}
+    .h1{font-size:34px!important}
+    .frame{margin:10px!important;border-radius:24px!important}
+    .eco-badge{display:none!important}
+    .hero-header{padding:70px 28px 50px!important}
+    .destacados-wrap{padding:0 20px!important;margin-top:-30px!important}
+    .bk-scroll{padding:28px!important}
+    .bk-nav-row{padding:16px 28px!important}
+  }
+  @media(max-width:640px){
+    .steps-row{grid-template-columns:1fr!important}
+    .plans-grid{grid-template-columns:1fr!important}
+    .form-2{grid-template-columns:1fr!important}
+    .foot-grid{grid-template-columns:1fr!important}
+    .benefits-grid{grid-template-columns:1fr!important}
+    .h1{font-size:28px!important}
+    .sec{padding:64px 20px!important}
+    .hl-grid{grid-template-columns:1fr!important}
+    .topbar{display:none!important}
+    .mobile-menu-panel{top:78px!important}
+    .hero-header{padding:60px 18px 40px!important}
+    .destacados-wrap{padding:0 14px!important;margin-top:-24px!important}
+    .destacados-wrap .hl-band{padding:28px 20px!important}
+    .bk-card{border-radius:20px!important}
+    .bk-scroll{padding:18px!important}
+    .bk-nav-row{padding:14px 18px!important}
+    .bk-steps{overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+    .bk-steps>button{flex:none!important;min-width:66px}
+    .bk-steps>button>span:last-child{font-size:10.5px!important}
+  }
+</style>
+</helmet>
+
+<!-- light-ray backdrop -->
+<div style="position:fixed;inset:0;z-index:0;background:
+  radial-gradient(1200px 700px at 78% -10%, rgba(110,224,204,.28), transparent 60%),
+  radial-gradient(900px 600px at 12% 8%, rgba(14,163,148,.18), transparent 55%),
+  linear-gradient(135deg,#063E38 0%,#0B5D52 55%,#0A4A43 100%)">
+  <div style="position:absolute;top:-10%;left:8%;width:130%;height:120%;background:repeating-linear-gradient(66deg, rgba(255,255,255,.05) 0px, rgba(255,255,255,.05) 2px, transparent 2px, transparent 90px);transform:skewX(-6deg);opacity:.6"></div>
+</div>
+
+<div style="position:relative;z-index:1;overflow-x:hidden">
+
+<!-- ============ TOP BAR ============ -->
+<div class="topbar" style="background:#063E38;color:rgba(255,255,255,.82);font-size:13px;overflow:hidden;max-height:{{ topbarMaxHeight }};opacity:{{ topbarOpacity }};transition:max-height .45s cubic-bezier(.4,0,.2,1),opacity .3s ease">
+  <div style="max-width:1180px;margin:0 auto;padding:9px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+    <div style="display:flex;align-items:center;gap:22px">
+      <a href="tel:+576044440000" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,.82)"><i data-lucide="phone" style="font-size:13px;color:#1DBFA6"></i> +57 604 444 0000</a>
+      <a href="mailto:hola@asseo.co" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,.82)"><i data-lucide="mail" style="font-size:13px;color:#1DBFA6"></i> hola@asseo.co</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:22px">
+      <span style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,.65)"><i data-lucide="clock" style="font-size:13px;color:#1DBFA6"></i> Lun–Sáb · 7:00 AM – 7:00 PM</span>
+      <button type="button" onClick="{{ openBookingGeneric }}" style="display:flex;align-items:center;gap:7px;color:#fff;font-weight:700;background:none;border:none;cursor:pointer;padding:0;font-size:13px"><i data-lucide="calendar-check" style="font-size:13px;color:#1DBFA6"></i> Reservar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ NAVBAR ============ -->
+<div style="height:{{ navSpacerHeight }}">
+<nav data-screen-label="Navbar" style="position:{{ navPosition }};top:0;left:0;right:0;width:100%;z-index:100;background:rgba(11,77,70,.68);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);border-bottom:1px solid rgba(29,191,166,.18);box-shadow:{{ navShadow }};transition:box-shadow .35s ease">
+  <div style="max-width:1180px;margin:0 auto;padding:15px 40px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <a href="#top" style="display:flex;align-items:center;gap:10px"><img src="./uploads/logo.png?v=1" alt="Aurora Integral" style="height:38px;width:38px;object-fit:contain;flex:none"><span style="display:flex;flex-direction:column;line-height:1.15"><span style="font-weight:800;font-size:16px;color:#fff">Aurora Integral</span><span style="font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65)">Limpieza profesional</span></span></a>
+    <div class="nav-links" style="display:flex;align-items:center;gap:2px">
+      <a class="navpill" href="#top" style="padding:9px 10px;font-size:14.5px;font-weight:700;color:#1DBFA6;border-bottom:2px solid #1DBFA6;white-space:nowrap">Inicio</a>
+      <div class="nav-dropdown">
+        <a class="navpill" href="#servicios" style="padding:9px 12px;font-size:14.5px;font-weight:500;color:rgba(255,255,255,.8);display:flex;align-items:center;gap:4px;white-space:nowrap">Servicios <i data-lucide="chevron-down" style="font-size:15px"></i></a>
+        <div class="nav-dropdown-panel">
+          <div class="nav-dropdown-panel-inner">
+            <sc-for list="{{ navServices }}" as="ns" hint-placeholder-count="5">
+              <button type="button" onClick="{{ ns.openBooking }}" style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 16px;border-radius:12px;color:#0B5D52;background:none;border:none;cursor:pointer;width:100%;text-align:left;font-family:inherit">
+                <span style="font-size:14px;font-weight:600">{{ ns.name }}</span>
+                <span style="font-size:13.5px;font-weight:800;color:#0D7A6C;white-space:nowrap">{{ ns.price }}</span>
+              </button>
+            </sc-for>
+            <a href="#servicios" style="display:block;margin-top:6px;padding:12px 16px;border-radius:12px;background:#E1F7F2;color:#0D7A6C;font-size:13.5px;font-weight:700;text-align:center">Ver todos los servicios</a>
+          </div>
+        </div>
+      </div>
+      <a class="navpill" href="#nosotros" style="padding:9px 12px;font-size:14.5px;font-weight:500;color:rgba(255,255,255,.8);white-space:nowrap">Nosotros</a>
+      <a class="navpill" href="#faq" style="padding:9px 12px;font-size:14.5px;font-weight:500;color:rgba(255,255,255,.8);white-space:nowrap">FAQ</a>
+      <a class="navpill" href="#contacto" style="padding:9px 12px;font-size:14.5px;font-weight:500;color:rgba(255,255,255,.8);white-space:nowrap">Contacto</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="nav-social" style="display:flex;align-items:center;gap:8px;margin-right:6px">
+        <a href="#" target="_blank" rel="noopener" aria-label="Facebook" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:#1DBFA6;color:#fff;flex:none">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.48 17.52 2 11.94 2 6.36 2 1.88 6.48 1.88 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.42V9.91c0-2.39 1.42-3.71 3.6-3.71 1.04 0 2.13.19 2.13.19v2.34h-1.2c-1.18 0-1.55.74-1.55 1.5v1.8h2.64l-.42 2.91h-2.22V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg>
+        </a>
+        <a href="#" target="_blank" rel="noopener" aria-label="Instagram" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:#1DBFA6;color:#fff;flex:none">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="#" target="_blank" rel="noopener" aria-label="TikTok" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:#1DBFA6;color:#fff;flex:none">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M16.5 2h-3.2v13.7c0 1.5-1.2 2.7-2.7 2.7-1.5 0-2.7-1.2-2.7-2.7 0-1.5 1.2-2.7 2.7-2.7.3 0 .6 0 .8.1V9.8c-.3 0-.5-.1-.8-.1-3.2 0-5.9 2.6-5.9 5.9s2.6 5.9 5.9 5.9 5.9-2.6 5.9-5.9V8.4c1.2.9 2.7 1.4 4.3 1.4V6.6c-2.4 0-4.4-1.9-4.3-4.6Z"/></svg>
+        </a>
+        <a href="https://wa.me/573000000000" target="_blank" rel="noopener" aria-label="WhatsApp" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:#1DBFA6;color:#fff;flex:none">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.5 3.62 1.44 5.13L2 22l5.14-1.52a9.8 9.8 0 0 0 4.9 1.31h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.44 17.5 2 12.04 2Zm0 18.03h-.01a8.1 8.1 0 0 1-4.14-1.14l-.3-.18-3.06.9.91-2.98-.2-.31a8.08 8.08 0 0 1-1.24-4.31c0-4.48 3.65-8.13 8.15-8.13 2.17 0 4.21.85 5.75 2.39a8.06 8.06 0 0 1 2.38 5.75c0 4.48-3.75 8.01-8.24 8.01Zm4.47-6.08c-.24-.12-1.44-.71-1.67-.79-.22-.08-.38-.12-.55.12-.16.24-.63.79-.77.95-.14.16-.28.18-.52.06-1.43-.71-2.37-1.27-3.31-2.88-.25-.43.25-.4.72-1.33.08-.16.04-.3-.04-.42-.08-.12-.55-1.32-.75-1.81-.2-.47-.4-.41-.55-.42h-.47c-.16 0-.42.06-.65.3-.22.24-.85.83-.85 2.03s.87 2.36.99 2.52c.12.16 1.68 2.56 4.07 3.49 2.39.93 2.39.62 3.17.56.78-.06 1.44-.62 1.6-.95.16-.33.16-.62.12-.68-.04-.06-.16-.1-.34-.2Z"/></svg>
+        </a>
+      </div>
+      <a href="https://wa.me/573000000000" target="_blank" rel="noopener" class="lbtn nav-cta" style="display:inline-flex;align-items:center;gap:10px;padding:6px 6px 6px 20px;border-radius:100px;background:#0B5D52;border:1.5px solid rgba(255,255,255,.12);color:#fff;font-weight:700;font-size:14px"><span class="nav-cta-text">Escríbenos</span><span class="chip" style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:#25D366;color:#fff">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.5 3.62 1.44 5.13L2 22l5.14-1.52a9.8 9.8 0 0 0 4.9 1.31h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.44 17.5 2 12.04 2Zm0 18.03h-.01a8.1 8.1 0 0 1-4.14-1.14l-.3-.18-3.06.9.91-2.98-.2-.31a8.08 8.08 0 0 1-1.24-4.31c0-4.48 3.65-8.13 8.15-8.13 2.17 0 4.21.85 5.75 2.39a8.06 8.06 0 0 1 2.38 5.75c0 4.48-3.75 8.01-8.24 8.01Zm4.47-6.08c-.24-.12-1.44-.71-1.67-.79-.22-.08-.38-.12-.55.12-.16.24-.63.79-.77.95-.14.16-.28.18-.52.06-1.43-.71-2.37-1.27-3.31-2.88-.25-.43.25-.4.72-1.33.08-.16.04-.3-.04-.42-.08-.12-.55-1.32-.75-1.81-.2-.47-.4-.41-.55-.42h-.47c-.16 0-.42.06-.65.3-.22.24-.85.83-.85 2.03s.87 2.36.99 2.52c.12.16 1.68 2.56 4.07 3.49 2.39.93 2.39.62 3.17.56.78-.06 1.44-.62 1.6-.95.16-.33.16-.62.12-.68-.04-.06-.16-.1-.34-.2Z"/></svg>
+      </span></a>
+      <sc-if value="{{ loggedOut }}" hint-placeholder-val="{{ true }}">
+        <button type="button" onClick="{{ openAuthLogin }}" class="nav-login-btn lbtn" style="flex:none;white-space:nowrap;background:#fff;border:none;border-radius:100px;padding:13px 26px;color:#0B5D52;font-weight:800;font-size:15.5px;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.18)">Iniciar sesión</button>
+      </sc-if>
+      <sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ false }}">
+        <button type="button" onClick="{{ openMyPanel }}" class="nav-login-btn lbtn" style="flex:none;white-space:nowrap;display:flex;align-items:center;gap:10px;background:#fff;border:none;border-radius:100px;padding:8px 22px 8px 8px;color:#0B5D52;font-weight:800;font-size:15.5px;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.18)"><span style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0B5D52;color:#1DBFA6;flex:none"><i data-lucide="{{ myPanelIcon }}" style="font-size:16px"></i></span> {{ myPanelLabel }}</button>
+      </sc-if>
+      <button class="nav-burger" onClick="{{ toggleMenu }}" style="display:none;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;cursor:pointer">
+        <i data-lucide="menu" style="font-size:22px"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+</div>
+
+<sc-if value="{{ mobileOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ toggleMenu }}" style="position:fixed;inset:0;z-index:99;background:rgba(6,62,56,.6);backdrop-filter:blur(4px)">
+    <div class="glass-card mobile-menu-panel reveal" style="position:absolute;top:118px;left:18px;right:18px;background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.5);border-radius:22px;padding:14px;box-shadow:0 20px 50px rgba(11,93,82,.35);display:flex;flex-direction:column;gap:2px">
+      <a href="#servicios" style="padding:14px 16px;border-radius:12px;font-weight:600;color:#0B5D52">Servicios</a>
+      <a href="#nosotros" style="padding:14px 16px;border-radius:12px;font-weight:600;color:#0B5D52">Nosotros</a>
+      <a href="#faq" style="padding:14px 16px;border-radius:12px;font-weight:600;color:#0B5D52">Preguntas frecuentes</a>
+      <a href="#contacto" style="padding:14px 16px;border-radius:12px;font-weight:600;color:#0B5D52">Contacto</a>
+      <button type="button" onClick="{{ openBookingGeneric }}" style="text-align:left;padding:14px 16px;border-radius:12px;font-weight:600;color:#0B5D52;background:none;border:none;cursor:pointer;font-size:16px">Reservar</button>
+      <div style="height:1px;background:rgba(13,122,108,.1);margin:6px 4px"></div>
+      <sc-if value="{{ loggedOut }}" hint-placeholder-val="{{ true }}">
+        <button type="button" onClick="{{ openAuthLogin }}" style="text-align:left;padding:14px 16px;border-radius:12px;font-weight:600;color:#0B5D52;background:none;border:none;cursor:pointer;font-size:16px">Iniciar sesión</button>
+      </sc-if>
+      <sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ false }}">
+        <button type="button" onClick="{{ openMyPanel }}" style="text-align:left;padding:14px 16px;border-radius:12px;font-weight:600;color:#0B5D52;background:none;border:none;cursor:pointer;font-size:16px">{{ myPanelLabel }}</button>
+      </sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ============ FRAMED PAGE ============ -->
+<div class="frame" style="position:relative;margin:18px;border-radius:34px;overflow:hidden;background:#fff;box-shadow:0 40px 100px rgba(0,0,0,.45)">
+
+<!-- ============ HERO ============ -->
+<header id="top" class="hero-header" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:flex-start;padding:70px 52px 60px;overflow:hidden">
+  <div style="position:absolute;inset:0;z-index:0">
+    <image-slot id="hero-bg" shape="rect" fit="cover" src="{{ heroBg }}" placeholder="Foto: personal de limpieza profesional" style="width:100%;height:100%"></image-slot>
+  </div>
+  <div style="position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(100deg,rgba(255,255,255,.94) 0%,rgba(255,255,255,.85) 22%,rgba(255,255,255,.45) 40%,rgba(255,255,255,0) 58%),linear-gradient(0deg,#0B5D52 0%,rgba(11,93,82,.7) 10%,rgba(11,93,82,0) 28%)"></div>
+
+  <!-- eco badge -->
+  <div class="eco-badge glass-card" style="position:absolute;z-index:3;top:28px;right:40px;width:118px;height:118px;border-radius:50%;background:rgba(255,255,255,.78);border:3px solid rgba(46,125,50,.16);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 18px 40px rgba(11,93,82,.32),inset 0 1px 2px rgba(255,255,255,.9)">
+    <span style="display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:rgba(46,125,50,.1);color:#2E7D32;margin-bottom:6px"><i data-lucide="recycle" style="font-size:22px"></i></span>
+    <span style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:9.5px;letter-spacing:.09em;color:#0B5D52;line-height:1.35">LIMPIEZA<br>ECOLÓGICA</span>
+  </div>
+
+  <!-- headline block -->
+  <div class="reveal" style="position:relative;z-index:2;max-width:1180px;width:100%;margin:0 auto">
+    <h1 class="h1" style="font-family:'Plus Jakarta Sans';font-size:44px;line-height:1.12;font-weight:800;color:#0B5D52;max-width:16ch;letter-spacing:-.01em;text-shadow:0 1px 12px rgba(255,255,255,.7)">Limpieza profesional que transforma tus espacios.</h1>
+    <p style="margin-top:20px;max-width:40ch;font-size:17px;line-height:1.6;color:#0B5D52;font-weight:500;text-shadow:0 1px 10px rgba(255,255,255,.8)">En Aurora Integral nos especializamos en brindar servicios de limpieza y aseo con los más altos estándares de calidad, compromiso y responsabilidad. Nuestro equipo está capacitado para mantener hogares, oficinas, edificios, comercios y espacios industriales impecables, creando ambientes limpios, seguros y saludables.</p>
+    <button type="button" onClick="{{ openBookingGeneric }}" class="lbtn" style="margin-top:30px;display:inline-flex;align-items:center;gap:12px;padding:9px 9px 9px 26px;border-radius:100px;background:#0B5D52;color:#fff;font-weight:700;font-size:16px;box-shadow:0 14px 34px rgba(11,93,82,.5);border:none;cursor:pointer">Reserva tu servicio <span class="chip" style="display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:#1DBFA6;color:#0B5D52"><i data-lucide="smile" style="font-size:20px"></i></span></button>
+  </div>
+</header>
+
+<!-- ============ DESTACADOS ============ -->
+<div id="servicios" class="destacados-wrap" style="position:relative;z-index:5;max-width:1180px;margin:-40px auto 0;padding:0 40px">
+  <div class="hl-band" style="background:linear-gradient(150deg,#0B5D52,#0D7A6C);border-radius:26px;padding:40px 34px;box-shadow:0 30px 60px rgba(11,93,82,.35)">
+    <h3 style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:26px;line-height:1.25;color:#fff;text-align:center;margin:0 auto 20px;max-width:24ch">Elige tu servicio y tarifa</h3>
+    <div style="display:flex;justify-content:center;gap:10px;margin-bottom:26px">
+      <button type="button" onClick="{{ setTabHogar }}" style="padding:10px 24px;border-radius:100px;border:1.5px solid {{ hlTabHogarBorder }};background:{{ hlTabHogarBg }};color:{{ hlTabHogarFg }};font-weight:700;font-size:14px;cursor:pointer;transition:all .2s">Hogar</button>
+      <button type="button" onClick="{{ setTabOficina }}" style="padding:10px 24px;border-radius:100px;border:1.5px solid {{ hlTabOficinaBorder }};background:{{ hlTabOficinaBg }};color:{{ hlTabOficinaFg }};font-weight:700;font-size:14px;cursor:pointer;transition:all .2s">Oficina</button>
+    </div>
+    <div class="hl-grid" style="display:grid;grid-template-columns:{{ hlGridCols }};gap:20px;max-width:{{ hlGridMaxWidth }};margin:0 auto">
+      <sc-for list="{{ activeServices }}" as="s" hint-placeholder-count="3">
+        <div style="position:relative;height:100%">
+          <sc-if value="{{ s.featured }}" hint-placeholder-val="{{ false }}">
+            <span style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);z-index:2;padding:6px 16px;border-radius:100px;background:linear-gradient(135deg,#7EE0D0,#1DBFA6);color:#0B5D52;font-size:12px;font-weight:800;letter-spacing:.04em;box-shadow:0 8px 20px rgba(29,191,166,.45)">MÁS ELEGIDO</span>
+          </sc-if>
+          <div class="plan-card glass-card" style="display:flex;flex-direction:column;height:100%;border-radius:18px;padding:30px 26px;background:{{ s.bg }};border:1.5px solid {{ s.border }};box-shadow:{{ s.shadow }}">
+            <div style="position:relative;z-index:1;display:flex;flex-direction:column;flex:1">
+              <div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:21px;color:{{ s.text }}">{{ s.name }}</div>
+              <p style="margin-top:8px;font-size:14px;color:{{ s.muted }};line-height:1.5">{{ s.tag }}</p>
+              <div style="display:flex;align-items:flex-end;gap:6px;margin:18px 0 6px"><span style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:38px;color:{{ s.accent }}">{{ s.price }}</span><span style="font-size:14px;color:{{ s.muted }};margin-bottom:8px">{{ s.per }}</span></div>
+              <div style="height:1px;background:{{ s.divider }};margin:16px 0"></div>
+              <div style="display:flex;flex-direction:column;gap:12px;flex:1">
+                <sc-for list="{{ s.features }}" as="f" hint-placeholder-count="4">
+                  <div style="display:flex;align-items:center;gap:11px;font-size:14px;color:{{ s.text }}"><span style="flex:none;display:flex;color:{{ s.check }}"><i data-lucide="check-circle-2" style="font-size:18px"></i></span>{{ f }}</div>
+                </sc-for>
+              </div>
+              <button type="button" onClick="{{ s.openBooking }}" class="lbtn" style="margin-top:22px;display:flex;align-items:center;justify-content:center;gap:9px;padding:14px;border-radius:100px;background:{{ s.btnBg }};color:{{ s.btnFg }};font-weight:700;font-size:15px;border:{{ s.btnBorder }};cursor:pointer;width:100%">{{ s.cta }} <i data-lucide="arrow-right" style="font-size:16px"></i></button>
+              <button type="button" onClick="{{ s.openDetail }}" style="margin-top:10px;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;border-radius:100px;background:none;border:none;color:{{ s.muted }};font-weight:600;font-size:13px;cursor:pointer;text-decoration:underline"><i data-lucide="info" style="font-size:14px"></i> Ver detalle</button>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+
+<!-- trust strip -->
+<div style="background:#F3FBFA;border-bottom:1px solid rgba(13,122,108,.06)">
+  <div style="max-width:1180px;margin:0 auto;padding:24px 40px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;color:#596579;font-size:14px;font-weight:600">
+    <span style="display:flex;align-items:center;gap:9px;color:#0B5D52"><i data-lucide="leaf" style="font-size:18px;color:#2E7D32"></i> Productos ecológicos</span>
+    <span style="display:flex;align-items:center;gap:9px;color:#0B5D52"><i data-lucide="clock" style="font-size:18px;color:#0EA394"></i> Atención el mismo día</span>
+    <span style="display:flex;align-items:center;gap:9px;color:#0B5D52"><i data-lucide="badge-check" style="font-size:18px;color:#0EA394"></i> Garantía de satisfacción</span>
+    <span style="display:flex;align-items:center;gap:9px;color:#0B5D52"><i data-lucide="lock" style="font-size:18px;color:#0EA394"></i> Pago seguro en línea</span>
+  </div>
+</div>
+
+<!-- ============ BENEFICIOS ============ -->
+<section id="nosotros" class="sec" data-screen-label="Beneficios" style="padding:104px 40px;background:#F3FBFA">
+  <div style="max-width:1180px;margin:0 auto">
+    <div style="text-align:center;max-width:640px;margin:0 auto 52px">
+      <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:16px"><span style="display:flex;align-items:center;justify-content:center;min-width:26px;height:26px;padding:0 7px;border-radius:7px;background:#1DBFA6;color:#0B5D52;font-family:'Plus Jakarta Sans';font-weight:800;font-size:13px">01</span><span style="font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#0D7A6C">Por qué Aurora Integral</span></div>
+      <h2 style="font-size:46px;line-height:1.05;font-weight:800">Confianza en cada detalle</h2>
+      <p style="margin-top:16px;font-size:18px;color:#596579;line-height:1.6">Tecnología, procesos certificados y un equipo humano que trata tu espacio como propio.</p>
+    </div>
+    <div class="benefits-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px">
+      <sc-for list="{{ benefits }}" as="b" hint-placeholder-count="6">
+        <div class="benefit-card glass-card" style="background:rgba(255,255,255,.55);border-radius:20px;padding:28px 26px;box-shadow:0 4px 18px rgba(13,122,108,.07)">
+          <span class="b-num">{{ b.num }}</span>
+          <span class="b-icon" style="display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#7EE0D0,#1DBFA6);color:#0B5D52;margin-bottom:18px"><i data-lucide="{{ b.icon }}" style="font-size:24px"></i></span>
+          <div style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:18px;color:#0B5D52">{{ b.title }}</div>
+          <div style="font-size:14px;color:#596579;line-height:1.55;margin-top:6px">{{ b.desc }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CÓMO FUNCIONA ============ -->
+<section class="sec" data-screen-label="Cómo funciona" style="padding:104px 40px;background:#fff">
+  <div style="max-width:1180px;margin:0 auto">
+    <div style="text-align:center;max-width:620px;margin:0 auto 52px">
+      <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:16px"><span style="display:flex;align-items:center;justify-content:center;min-width:26px;height:26px;padding:0 7px;border-radius:7px;background:#1DBFA6;color:#0B5D52;font-family:'Plus Jakarta Sans';font-weight:800;font-size:13px">02</span><span style="font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#0D7A6C">Cómo funciona</span></div>
+      <h2 style="font-size:46px;line-height:1.05;font-weight:800">Reservar es simple</h2>
+      <p style="margin-top:16px;font-size:18px;color:#596579;line-height:1.6">Cinco pasos y tu espacio queda impecable.</p>
+    </div>
+    <div class="steps-row" style="display:grid;grid-template-columns:repeat(5,1fr);gap:18px">
+      <sc-for list="{{ steps }}" as="st" hint-placeholder-count="4">
+        <div class="step-card glass-card" style="position:relative;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.6);border-radius:22px;padding:28px 24px">
+          <div style="display:flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:16px;background:#0B5D52;color:#1DBFA6;margin-bottom:18px"><i data-lucide="{{ st.icon }}" style="font-size:25px"></i></div>
+          <span style="position:absolute;top:24px;right:26px;font-family:'Plus Jakarta Sans';font-weight:800;font-size:40px;color:rgba(29,191,166,.35)">{{ st.num }}</span>
+          <h3 style="font-size:18.5px;font-weight:700">{{ st.title }}</h3>
+          <p style="margin-top:8px;font-size:14px;color:#596579;line-height:1.55">{{ st.desc }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="sec" data-screen-label="FAQ" style="padding:104px 40px;background:#F3FBFA">
+  <div style="max-width:820px;margin:0 auto">
+    <div style="text-align:center;margin:0 auto 44px">
+      <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:16px"><span style="display:flex;align-items:center;justify-content:center;min-width:26px;height:26px;padding:0 7px;border-radius:7px;background:#1DBFA6;color:#0B5D52;font-family:'Plus Jakarta Sans';font-weight:800;font-size:13px">04</span><span style="font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#0D7A6C">Preguntas frecuentes</span></div>
+      <h2 style="font-size:46px;line-height:1.05;font-weight:800">Resolvemos tus dudas</h2>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="5">
+        <div class="glass-card" style="background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.6);border-radius:18px;box-shadow:0 4px 14px rgba(13,122,108,.05)">
+          <button class="faq-q" onClick="{{ f.onClick }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 24px;background:none;border:none;cursor:pointer;text-align:left">
+            <span style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:17px;color:#0B5D52">{{ f.q }}</span>
+            <span style="flex:none;display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;background:#E1F7F2;color:#0D7A6C;transform:{{ f.rotate }};transition:transform .3s"><i data-lucide="plus" style="font-size:20px"></i></span>
+          </button>
+          <div style="max-height:{{ f.maxh }};overflow:hidden;transition:max-height .35s ease">
+            <p style="padding:0 24px 22px;font-size:15px;color:#596579;line-height:1.65">{{ f.a }}</p>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACTO ============ -->
+<section id="contacto" class="sec" data-screen-label="Contacto" style="padding:104px 40px;background:#fff">
+  <div style="max-width:1180px;margin:0 auto">
+    <div class="two-col" style="display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:stretch">
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:16px"><span style="display:flex;align-items:center;justify-content:center;min-width:26px;height:26px;padding:0 7px;border-radius:7px;background:#1DBFA6;color:#0B5D52;font-family:'Plus Jakarta Sans';font-weight:800;font-size:13px">05</span><span style="font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#0D7A6C">Contacto</span></div>
+        <h2 style="font-size:44px;line-height:1.06;font-weight:800">Hablemos de tu espacio</h2>
+        <p style="margin-top:16px;font-size:17px;color:#596579;line-height:1.6;max-width:44ch">Escríbenos y te asesoramos sin costo. Respondemos en minutos.</p>
+        <div style="display:flex;flex-direction:column;gap:16px;margin-top:32px">
+          <sc-for list="{{ contacts }}" as="c" hint-placeholder-count="4">
+            <div class="glass-card" style="display:flex;align-items:center;gap:15px;padding:16px;border-radius:16px;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.6)">
+              <span style="flex:none;display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:14px;background:{{ c.bg }};color:{{ c.fg }}"><i data-lucide="{{ c.icon }}" style="font-size:22px"></i></span>
+              <div><div style="font-size:13px;color:#596579">{{ c.label }}</div><div style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:16px;color:#0B5D52">{{ c.value }}</div></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="position:relative;border-radius:24px;overflow:hidden;min-height:440px;background:#E1F7F2;border:1px solid rgba(13,122,108,.08)">
+        <iframe title="Mapa" src="https://maps.google.com/maps?q=Cra.%2043A%20%237-50%2C%20El%20Poblado%2C%20Medell%C3%ADn%2C%20Colombia&z=15&output=embed" style="width:100%;height:100%;border:0"></iframe>
+        <div class="glass-card" style="position:absolute;top:20px;left:20px;max-width:calc(100% - 40px);background:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.6);border-radius:16px;padding:14px 18px;display:flex;align-items:center;gap:13px;box-shadow:0 14px 34px rgba(11,93,82,.2);pointer-events:none">
+          <span style="flex:none;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,#7EE0D0,#1DBFA6);color:#0B5D52"><i data-lucide="map-pin" style="font-size:22px"></i></span>
+          <div><div style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:15.5px;color:#0B5D52">Oficina Aurora Integral</div><div style="font-size:13px;color:#596579">Cra. 43A #7-50, El Poblado · Medellín</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer data-screen-label="Footer" class="glass-card" style="background:rgba(11,93,82,.7);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);color:#fff;padding:70px 40px 34px">
+  <div style="max-width:1180px;margin:0 auto">
+    <div class="foot-grid" style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.12)">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><img src="./uploads/logo.png?v=1" alt="Aurora Integral" style="height:38px;width:38px;object-fit:contain;flex:none"><span style="font-weight:800;font-size:17px;color:#fff">Aurora Integral</span></div>
+        <p style="font-size:14.5px;color:rgba(255,255,255,.7);line-height:1.6;max-width:36ch">Servicios de limpieza premium para hogares, comercios e industrias. Confianza, tecnología y excelencia.</p>
+        <div style="margin-top:14px;display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(255,255,255,.65);max-width:36ch;line-height:1.5"><i data-lucide="map-pin" style="font-size:15px;color:#1DBFA6;flex:none;margin-top:2px"></i><span><strong style="color:#fff;font-weight:700">Nuestra cobertura:</strong> Bogotá – Medellín – Oriente Antioqueño – Cali – Bucaramanga</span></div>
+        <div style="display:flex;gap:10px;margin-top:20px">
+          <sc-for list="{{ socials }}" as="s" hint-placeholder-count="4">
+            <a href="#top" class="socbtn" style="display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.08);color:#fff;transition:all .2s"><i data-lucide="{{ s }}" style="font-size:19px"></i></a>
+          </sc-for>
+        </div>
+      </div>
+      <div>
+        <h4 style="font-size:14px;color:#1DBFA6;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">Enlaces</h4>
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:14.5px">
+          <a href="#servicios" style="color:rgba(255,255,255,.8)">Servicios</a>
+          <button type="button" onClick="{{ openBookingGeneric }}" style="text-align:left;color:rgba(255,255,255,.8);background:none;border:none;cursor:pointer;font-size:14.5px;padding:0;font-family:inherit">Reservar</button>
+          <a href="#nosotros" style="color:rgba(255,255,255,.8)">Nosotros</a>
+        </div>
+      </div>
+      <div>
+        <h4 style="font-size:14px;color:#1DBFA6;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">Empresa</h4>
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:14.5px">
+          <a href="#contacto" style="color:rgba(255,255,255,.8)">Contacto</a>
+          <a href="#top" style="color:rgba(255,255,255,.8)">Trabaja con nosotros</a>
+          <a href="#top" style="color:rgba(255,255,255,.8)">Blog</a>
+          <a href="#top" style="color:rgba(255,255,255,.8)">Cobertura</a>
+        </div>
+      </div>
+      <div>
+        <h4 style="font-size:14px;color:#1DBFA6;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">Legal</h4>
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:14.5px">
+          <a href="#top" style="color:rgba(255,255,255,.8)">Política de privacidad</a>
+          <a href="#top" style="color:rgba(255,255,255,.8)">Términos y condiciones</a>
+          <a href="#top" style="color:rgba(255,255,255,.8)">Garantía</a>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;padding-top:26px;font-size:13.5px;color:rgba(255,255,255,.6)">
+      <span>© 2026 Aurora Integral. Todos los derechos reservados.</span>
+      <span style="display:flex;align-items:center;gap:8px"><i data-lucide="heart" style="font-size:15px;color:#1DBFA6"></i> Hecho con dedicación en Colombia</span>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /frame -->
+
+<!-- WhatsApp float -->
+<a class="wa" href="https://wa.me/573000000000" target="_blank" rel="noopener" title="Escríbenos por WhatsApp" style="position:fixed;bottom:26px;right:26px;z-index:150;display:flex;align-items:center;justify-content:center;width:58px;height:58px;border-radius:50%;background:#25D366;color:#fff;box-shadow:0 10px 24px rgba(0,0,0,.22)">
+  <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.5 3.62 1.44 5.13L2 22l5.14-1.52a9.8 9.8 0 0 0 4.9 1.31h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.44 17.5 2 12.04 2Zm0 18.03h-.01a8.1 8.1 0 0 1-4.14-1.14l-.3-.18-3.06.9.91-2.98-.2-.31a8.08 8.08 0 0 1-1.24-4.31c0-4.48 3.65-8.13 8.15-8.13 2.17 0 4.21.85 5.75 2.39a8.06 8.06 0 0 1 2.38 5.75c0 4.48-3.75 8.01-8.24 8.01Zm4.47-6.08c-.24-.12-1.44-.71-1.67-.79-.22-.08-.38-.12-.55.12-.16.24-.63.79-.77.95-.14.16-.28.18-.52.06-1.43-.71-2.37-1.27-3.31-2.88-.25-.43.25-.4.72-1.33.08-.16.04-.3-.04-.42-.08-.12-.55-1.32-.75-1.81-.2-.47-.4-.41-.55-.42h-.47c-.16 0-.42.06-.65.3-.22.24-.85.83-.85 2.03s.87 2.36.99 2.52c.12.16 1.68 2.56 4.07 3.49 2.39.93 2.39.62 3.17.56.78-.06 1.44-.62 1.6-.95.16-.33.16-.62.12-.68-.04-.06-.16-.1-.34-.2Z"/></svg>
+</a>
+
+<!-- ============ MODAL RESERVAR SERVICIO ============ -->
+<sc-if value="{{ bkOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeBooking }}" style="position:fixed;inset:0;z-index:250;background:rgba(6,62,56,.72);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;animation:fadeUp .25s both">
+    <div onClick="{{ stopProp }}" class="bk-card glass-card" style="position:relative;width:min(1000px,100%);max-height:94vh;display:flex;flex-direction:column;background:rgba(255,255,255,.72);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);border:1px solid rgba(255,255,255,.5);border-radius:24px;box-shadow:0 30px 70px rgba(11,93,82,.28);overflow:hidden">
+      <button type="button" onClick="{{ closeBooking }}" style="position:absolute;top:22px;right:22px;z-index:6;display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;border:1px solid rgba(13,122,108,.14);background:#fff;color:#0B5D52;cursor:pointer"><i data-lucide="x" style="font-size:20px"></i></button>
+
+      <sc-if value="{{ showBkGate }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:52px 40px;text-align:center">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:58px;height:58px;border-radius:16px;background:#E1F7F2;color:#0D7A6C;margin-bottom:20px"><i data-lucide="user-check" style="font-size:28px"></i></span>
+          <h2 style="font-size:24px;font-weight:800">¿Ya tienes cuenta con Aurora Integral?</h2>
+          <p style="margin-top:8px;font-size:14.5px;color:#596579;max-width:38ch;margin-left:auto;margin-right:auto;line-height:1.55">Inicia sesión o regístrate para que tomemos tus datos automáticamente y agendes más rápido.</p>
+          <div style="display:flex;gap:12px;justify-content:center;margin-top:28px;flex-wrap:wrap">
+            <button type="button" onClick="{{ openAuthLoginFromBooking }}" style="padding:13px 26px;border-radius:100px;border:1.5px solid #0B5D52;background:#fff;color:#0B5D52;font-weight:700;font-size:14.5px;cursor:pointer">Iniciar sesión</button>
+            <button type="button" onClick="{{ openAuthRegisterFromBooking }}" style="padding:13px 26px;border-radius:100px;border:none;background:#0B5D52;color:#fff;font-weight:700;font-size:14.5px;cursor:pointer">Registrarme</button>
+          </div>
+          <button type="button" onClick="{{ continueAsGuest }}" style="margin-top:22px;background:none;border:none;color:#596579;font-weight:600;font-size:13.5px;cursor:pointer;text-decoration:underline">Continuar sin cuenta</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ bkGatePassed }}" hint-placeholder-val="{{ true }}">
+      <div class="bk-scroll" style="flex:1;overflow-y:auto;padding:26px 28px">
+      <h2 style="font-size:22px;font-weight:800">Reservar servicio</h2>
+      <p style="margin-top:4px;font-size:13.5px;color:#596579">Completa los pasos y agenda en minutos.</p>
+
+      <div class="bk-steps" style="position:relative;display:flex;align-items:center;margin-top:18px">
+        <div style="position:absolute;left:10%;right:10%;top:20px;height:2px;background:rgba(13,122,108,.14);border-radius:2px;z-index:0"></div>
+        <div style="position:absolute;left:10%;top:20px;height:2px;width:{{ bkProgressPct }};background:linear-gradient(90deg,#1DBFA6,#0B5D52);border-radius:2px;z-index:0;transition:width .35s ease"></div>
+        <sc-for list="{{ bkSteps }}" as="st" hint-placeholder-count="5">
+          <button type="button" onClick="{{ st.onClick }}" style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:9px;background:none;border:none;cursor:pointer;flex:1;min-width:0">
+            <span class="bk-step-circle" style="position:relative;display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:{{ st.circleBg }};color:{{ st.circleFg }};border:2px solid {{ st.circleBorder }};font-weight:800;font-size:14.5px;box-shadow:{{ st.circleShadow }}">
+              <span style="display:{{ st.numDisplay }}">{{ st.n }}</span>
+              <i data-lucide="check" style="font-size:17px;display:{{ st.checkDisplay }}"></i>
+            </span>
+            <span class="bk-step-label" style="font-size:11.5px;font-weight:700;color:{{ st.labelColor }};white-space:nowrap">{{ st.label }}</span>
+          </button>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ bkNotStep5 }}" hint-placeholder-val="{{ true }}">
+      <div class="book-grid" style="display:grid;grid-template-columns:1.5fr 1fr;gap:18px;margin-top:18px;align-items:start">
+        <div style="background:rgba(243,251,250,.6);border:1px solid rgba(255,255,255,.5);border-radius:18px;padding:20px;min-height:280px">
+
+          <sc-if value="{{ isBk1 }}" hint-placeholder-val="{{ false }}">
+          <div class="step-reveal">
+            <h3 style="font-size:20px;font-weight:800">¿Qué servicio necesitas?</h3>
+            <p style="margin-top:6px;font-size:14px;color:#596579">Elige la modalidad y el tipo de servicio.</p>
+            <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+              <button type="button" onClick="{{ setBkModHogar }}" class="bk-tab" style="padding:10px 20px;border-radius:100px;border:1.5px solid {{ bkModHogarBorder }};background:{{ bkModHogarBg }};color:{{ bkModHogarFg }};font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:7px"><i data-lucide="home" style="font-size:15px"></i> Hogar</button>
+              <button type="button" onClick="{{ setBkModOficina }}" class="bk-tab" style="padding:10px 20px;border-radius:100px;border:1.5px solid {{ bkModOficinaBorder }};background:{{ bkModOficinaBg }};color:{{ bkModOficinaFg }};font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:7px"><i data-lucide="building-2" style="font-size:15px"></i> Oficina</button>
+              <button type="button" onClick="{{ toggleBkMode }}" class="bk-tab" style="padding:10px 20px;border-radius:100px;border:1.5px solid {{ bkModeRecurrenteBorder }};background:{{ bkModeRecurrenteBg }};color:{{ bkModeRecurrenteFg }};font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:7px"><i data-lucide="repeat" style="font-size:15px"></i> Plan recurrente</button>
+            </div>
+            <sc-if value="{{ isBkRecurrente }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:16px;padding:13px 16px;border-radius:13px;background:#FFF7DC;color:#8A6D1A;font-size:13.5px;line-height:1.5">Esta tarifa corresponde a un servicio único. Para plan recurrente, un asesor te contactará después de esta primera visita para ajustar frecuencia y tarifa.</div>
+            </sc-if>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px">
+              <sc-for list="{{ bkServiceCards }}" as="s" hint-placeholder-count="3">
+                <div onClick="{{ s.select }}" class="bk-select-card" style="cursor:pointer;position:relative;border-radius:16px;padding:18px;border:1.5px solid {{ s.cardBorder }};background:{{ s.cardBg }}">
+                  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+                    <div style="font-weight:700;font-size:15px;color:#0B5D52">{{ s.name }}</div>
+                    <sc-if value="{{ s.selected }}" hint-placeholder-val="{{ false }}">
+                      <span style="flex:none;display:flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#0B5D52;color:#fff"><i data-lucide="check" style="font-size:13px"></i></span>
+                    </sc-if>
+                  </div>
+                  <p style="margin-top:6px;font-size:13px;color:#596579;line-height:1.5">{{ s.tag }}</p>
+                  <div style="margin-top:12px;font-weight:800;font-size:19px;color:#0D7A6C">{{ s.price }} <span style="font-weight:600;font-size:12px;color:#596579">{{ s.per }}</span></div>
+                  <button type="button" onClick="{{ s.openDetail }}" style="margin-top:8px;display:flex;align-items:center;gap:5px;padding:0;background:none;border:none;color:#0D7A6C;font-weight:600;font-size:12px;cursor:pointer;text-decoration:underline"><i data-lucide="info" style="font-size:13px"></i> Ver detalle</button>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ isBk2 }}" hint-placeholder-val="{{ false }}">
+          <div class="step-reveal">
+            <h3 style="font-size:20px;font-weight:800">Tu asistente de limpieza</h3>
+            <p style="margin-top:6px;font-size:14px;color:#596579;line-height:1.55">Aurora asigna un profesional certificado y capacitado según tu servicio. Déjanos tus datos para coordinarlo.</p>
+
+            <sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:18px;padding:14px 16px;border-radius:14px;background:#e9f7ec;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#2E7D32;color:#fff"><i data-lucide="check" style="font-size:18px"></i></span>
+                  <div><div style="font-weight:700;font-size:14px;color:#0B5D52">Sesión iniciada como {{ authUser.nombre }}</div><div style="font-size:12.5px;color:#596579">{{ authUser.correo }} · usaremos estos datos</div></div>
+                </div>
+                <button type="button" onClick="{{ logout }}" style="background:none;border:none;color:#0D7A6C;font-weight:700;font-size:13px;cursor:pointer;text-decoration:underline">No soy yo</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ loggedOut }}" hint-placeholder-val="{{ true }}">
+              <div style="margin-top:18px;padding:16px;border-radius:14px;background:#E1F7F2;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
+                <div style="font-size:13.5px;color:#0B5D52"><strong>¿Ya tienes cuenta?</strong> Inicia sesión o regístrate para no volver a escribir tus datos.</div>
+                <div style="display:flex;gap:8px;flex:none">
+                  <button type="button" onClick="{{ openAuthLoginFromBooking }}" style="padding:9px 16px;border-radius:100px;border:1.5px solid #0B5D52;background:#fff;color:#0B5D52;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap">Iniciar sesión</button>
+                  <button type="button" onClick="{{ openAuthRegisterFromBooking }}" style="padding:9px 16px;border-radius:100px;border:none;background:#0B5D52;color:#fff;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap">Registrarme</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px">
+              <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Nombre
+                <input class="field" placeholder="Tu nombre" value="{{ b.nombre }}" onChange="{{ h.nombre }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px" />
+              </label>
+              <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Teléfono
+                <input class="field" placeholder="+57 ___ ___ ____" value="{{ b.telefono }}" onChange="{{ h.telefono }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px" />
+              </label>
+              <label style="grid-column:1 / -1;display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Correo
+                <input class="field" placeholder="correo@ejemplo.com" value="{{ b.correo }}" onChange="{{ h.correo }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px" />
+              </label>
+              <label style="grid-column:1 / -1;display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">¿Algo que el asistente deba saber?
+                <textarea class="field" rows="3" placeholder="Detalles del espacio, mascotas, acceso…" value="{{ b.obs }}" onChange="{{ h.obs }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px;resize:vertical"></textarea>
+              </label>
+            </div>
+
+            <h4 style="margin-top:28px;font-size:15.5px;font-weight:800;color:#0B5D52">Match de Expertas</h4>
+            <p style="margin-top:4px;font-size:13px;color:#596579">Elige a la experta que más te guste para que te preste el servicio (opcional, si no eliges Aurora asigna una).</p>
+            <div style="display:flex;flex-direction:column;gap:14px;margin-top:16px">
+              <sc-for list="{{ expertOptions }}" as="e" hint-placeholder-count="3">
+                <div style="border:1.5px solid {{ e.cardBorder }};background:{{ e.cardBg }};border-radius:16px;padding:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+                  <img src="{{ e.photo }}" alt="{{ e.name }}" style="width:56px;height:56px;border-radius:50%;object-fit:cover;flex:none" />
+                  <div style="flex:1;min-width:180px">
+                    <div style="font-weight:800;font-size:14.5px;color:#0B5D52;text-transform:uppercase">{{ e.name }}</div>
+                    <div style="margin-top:4px;display:flex;align-items:center;gap:5px;color:#F6C915"><i data-lucide="star" style="font-size:14px;fill:#F6C915;stroke:#F6C915"></i><i data-lucide="star" style="font-size:14px;fill:#F6C915;stroke:#F6C915"></i><i data-lucide="star" style="font-size:14px;fill:#F6C915;stroke:#F6C915"></i><i data-lucide="star" style="font-size:14px;fill:#F6C915;stroke:#F6C915"></i><i data-lucide="star" style="font-size:14px;fill:#F6C915;stroke:#F6C915"></i><span style="color:#596579;font-size:12.5px;margin-left:4px">{{ e.jobs }} servicios · {{ e.specialty }}</span></div>
+                  </div>
+                  <button type="button" onClick="{{ e.select }}" style="flex:none;padding:10px 18px;border-radius:100px;border:none;background:{{ e.btnBg }};color:{{ e.btnFg }};font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap">{{ e.btnLabel }}</button>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ isBk3 }}" hint-placeholder-val="{{ false }}">
+          <div class="step-reveal">
+            <h3 style="font-size:20px;font-weight:800">¿Dónde es el servicio?</h3>
+            <p style="margin-top:6px;font-size:14px;color:#596579">Indícanos la ciudad y la dirección exacta.</p>
+            <div style="display:flex;flex-direction:column;gap:16px;margin-top:22px">
+              <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Ciudad
+                <input class="field" placeholder="Ej. Medellín" value="{{ b.ciudad }}" onChange="{{ h.ciudad }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px" />
+              </label>
+              <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Dirección
+                <input class="field" placeholder="Calle, número, referencia" value="{{ b.direccion }}" onChange="{{ h.direccion }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px" />
+              </label>
+            </div>
+
+            <h4 style="margin-top:28px;font-size:15.5px;font-weight:800;color:#0B5D52">Características del lugar a limpiar</h4>
+            <div style="display:flex;flex-direction:column;gap:16px;margin-top:16px">
+              <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">¿Cuál es el área en metros cuadrados?
+                <select class="field" value="{{ b.area }}" onChange="{{ h.area }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px">
+                  <option value="">Selecciona el área</option>
+                  <option value="Menos de 40 mt2">Menos de 40 mt2</option>
+                  <option value="Entre 40 mt2 y 59 mt2">Entre 40 mt2 y 59 mt2</option>
+                  <option value="Entre 60 mt2 y 89 mt2">Entre 60 mt2 y 89 mt2</option>
+                  <option value="Entre 90 mt2 y 119 mt2">Entre 90 mt2 y 119 mt2</option>
+                  <option value="120 mt2 o más">120 mt2 o más</option>
+                </select>
+              </label>
+              <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">¿Cuántos baños tiene el lugar?
+                <select class="field" value="{{ b.banos }}" onChange="{{ h.banos }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px">
+                  <option value="">Selecciona la cantidad</option>
+                  <option value="1 baño">1 baño</option>
+                  <option value="2 a 3 baños">2 a 3 baños</option>
+                  <option value="4 a 6 baños">4 a 6 baños</option>
+                  <option value="Más de 6 baños">Más de 6 baños</option>
+                </select>
+              </label>
+              <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">¿Cuántos pisos tiene el inmueble?
+                <select class="field" value="{{ b.pisos }}" onChange="{{ h.pisos }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px">
+                  <option value="">Selecciona los pisos</option>
+                  <option value="1 piso">1 piso</option>
+                  <option value="2 pisos">2 pisos</option>
+                  <option value="3 pisos">3 pisos</option>
+                  <option value="4 pisos">4 pisos</option>
+                  <option value="5 pisos o más">5 pisos o más</option>
+                </select>
+              </label>
+              <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Indicaciones de cómo llegar (opcional)
+                <textarea class="field" rows="2" placeholder="Indicaciones de cómo llegar y por quién preguntar" value="{{ b.indicaciones }}" onChange="{{ h.indicaciones }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px;resize:vertical"></textarea>
+              </label>
+
+              <div style="padding:13px 16px;border-radius:13px;background:#FFF7DC;color:#8A6D1A;font-size:13.5px;line-height:1.5;display:flex;gap:9px;align-items:flex-start"><i data-lucide="triangle-alert" style="font-size:16px;flex:none;margin-top:1px"></i> Aunque es opcional, te recomendamos agregar indicaciones para que el servicio se realice de la mejor manera.</div>
+
+              <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Minuta: Indicaciones del servicio (opcional)
+                <textarea class="field" rows="3" placeholder="Indicaciones de cómo hacer el servicio. Escribe el orden de actividades y el detalle de cómo te gustaría que se realizara el servicio" value="{{ b.minuta }}" onChange="{{ h.minuta }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px;resize:vertical"></textarea>
+              </label>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ isBk4 }}" hint-placeholder-val="{{ false }}">
+          <div class="step-reveal">
+            <h3 style="font-size:20px;font-weight:800">¿Cuándo te viene bien?</h3>
+            <p style="margin-top:6px;font-size:14px;color:#596579">Elige la fecha y un horario disponible.</p>
+            <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52;margin-top:22px;max-width:240px">Fecha
+              <input class="field" type="date" value="{{ b.fecha }}" onChange="{{ h.fecha }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px" />
+            </label>
+            <div style="margin-top:18px;font-size:13.5px;font-weight:600;color:#0B5D52">Hora</div>
+            <div style="display:flex;flex-wrap:wrap;gap:9px;margin-top:9px">
+              <sc-for list="{{ timeSlots }}" as="t" hint-placeholder-count="6">
+                <button type="button" onClick="{{ t.onClick }}" style="padding:10px 16px;border-radius:11px;border:1px solid {{ t.border }};background:{{ t.bg }};color:{{ t.fg }};font-weight:600;font-size:14px;cursor:pointer;transition:all .2s">{{ t.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+          </sc-if>
+
+
+        </div>
+
+        <div style="position:sticky;top:0;background:#fff;border:1px solid rgba(13,122,108,.08);border-radius:18px;padding:18px">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px"><span style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:10px;background:#E1F7F2;color:#0D7A6C"><i data-lucide="receipt-text" style="font-size:16px"></i></span><h4 style="font-size:15px;font-weight:800">Resumen</h4></div>
+          <div style="display:flex;flex-direction:column;gap:2px">
+            <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(13,122,108,.14)"><span style="color:#596579;font-size:12.5px">Servicio</span><span style="font-weight:700;font-size:12.5px;color:#0B5D52;text-align:right;max-width:58%">{{ b.service }}</span></div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(13,122,108,.14)"><span style="color:#596579;font-size:12.5px">Modalidad</span><span style="font-weight:700;font-size:12.5px;color:#0B5D52">{{ bkModalidadLabel }}</span></div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(13,122,108,.14)"><span style="color:#596579;font-size:12.5px">Dirección</span><span style="font-weight:700;font-size:12.5px;color:#0B5D52;text-align:right;max-width:58%">{{ bkDireccion }}</span></div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(13,122,108,.14)"><span style="color:#596579;font-size:12.5px">Fecha</span><span style="font-weight:700;font-size:12.5px;color:#0B5D52">{{ summaryFecha }}</span></div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(13,122,108,.14)"><span style="color:#596579;font-size:12.5px">Hora</span><span style="font-weight:700;font-size:12.5px;color:#0B5D52">{{ summaryHora }}</span></div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0"><span style="color:#596579;font-size:12.5px">Asistente</span><span style="font-weight:700;font-size:12.5px;color:#0B5D52">{{ summaryExperta }}</span></div>
+          </div>
+          <div style="margin:12px 0;padding:12px;border-radius:14px;background:#E1F7F2">
+            <div style="font-size:12px;font-weight:600;color:#0D7A6C;margin-bottom:4px">Total a pagar</div>
+            <div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:20px;color:#0B5D52;white-space:nowrap">{{ summaryPrice }}</div>
+          </div>
+          <p style="font-size:11.5px;color:#596579;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="lock" style="font-size:13px"></i> Pago seguro · confirmamos por WhatsApp</p>
+        </div>
+      </div>
+      </sc-if><!-- /bkNotStep5 -->
+
+      <sc-if value="{{ isBk5 }}" hint-placeholder-val="{{ false }}">
+      <div class="step-reveal" style="margin-top:28px;background:rgba(243,251,250,.6);border:1px solid rgba(255,255,255,.5);border-radius:18px;padding:36px">
+        <div style="max-width:520px;margin:0 auto">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="flex:none;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:#0B5D52;color:#1DBFA6"><i data-lucide="clipboard-check" style="font-size:22px"></i></span>
+            <div><h3 style="font-size:20px;font-weight:800">Revisa tu reserva</h3><p style="margin-top:2px;font-size:13.5px;color:#596579">Confirma que todo esté correcto antes de agendar.</p></div>
+          </div>
+
+          <div style="margin-top:24px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.6);border-radius:16px;padding:6px 20px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid rgba(13,122,108,.08)"><span style="display:flex;align-items:center;gap:10px;color:#596579;font-size:14px"><i data-lucide="sparkles" style="font-size:16px;color:#0D7A6C"></i> Servicio</span><span style="font-weight:700;font-size:14px;color:#0B5D52;text-align:right;max-width:55%">{{ b.service }}</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid rgba(13,122,108,.08)"><span style="display:flex;align-items:center;gap:10px;color:#596579;font-size:14px"><i data-lucide="layout-grid" style="font-size:16px;color:#0D7A6C"></i> Modalidad</span><span style="font-weight:700;font-size:14px;color:#0B5D52">{{ bkModalidadLabel }}</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid rgba(13,122,108,.08)"><span style="display:flex;align-items:center;gap:10px;color:#596579;font-size:14px"><i data-lucide="map-pin" style="font-size:16px;color:#0D7A6C"></i> Dirección</span><span style="font-weight:700;font-size:14px;color:#0B5D52;text-align:right;max-width:55%">{{ bkDireccion }}</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid rgba(13,122,108,.08)"><span style="display:flex;align-items:center;gap:10px;color:#596579;font-size:14px"><i data-lucide="calendar" style="font-size:16px;color:#0D7A6C"></i> Fecha</span><span style="font-weight:700;font-size:14px;color:#0B5D52">{{ summaryFecha }}</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid rgba(13,122,108,.08)"><span style="display:flex;align-items:center;gap:10px;color:#596579;font-size:14px"><i data-lucide="clock" style="font-size:16px;color:#0D7A6C"></i> Hora</span><span style="font-weight:700;font-size:14px;color:#0B5D52">{{ summaryHora }}</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0"><span style="display:flex;align-items:center;gap:10px;color:#596579;font-size:14px"><i data-lucide="user-check" style="font-size:16px;color:#0D7A6C"></i> Asistente</span><span style="font-weight:700;font-size:14px;color:#0B5D52">{{ summaryExperta }}</span></div>
+          </div>
+
+          <div style="margin-top:16px;padding:18px 20px;border-radius:16px;background:linear-gradient(135deg,#0D7A6C,#0B5D52);display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:13px;font-weight:600;color:rgba(255,255,255,.75)">Total a pagar</span>
+            <span style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:26px;color:#fff;white-space:nowrap">{{ summaryPrice }}</span>
+          </div>
+          <p style="margin-top:12px;font-size:12px;color:#596579;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="lock" style="font-size:13px"></i> Pago seguro · confirmamos por WhatsApp</p>
+
+          <sc-if value="{{ booked }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:20px;padding:16px 18px;border-radius:16px;background:#e9f7ec;color:#2E7D32;display:flex;align-items:center;gap:12px">
+              <i data-lucide="party-popper" style="font-size:22px"></i>
+              <div><div style="font-weight:700;font-size:14.5px">¡Reserva enviada!</div><div style="font-size:13px;margin-top:2px">Te contactaremos muy pronto para confirmar los detalles.</div></div>
+            </div>
+            <button type="button" onClick="{{ closeBooking }}" class="lbtn" style="margin-top:16px;width:100%;padding:12px 28px;border-radius:100px;background:#0B5D52;color:#fff;font-weight:700;font-size:14.5px;border:none;cursor:pointer">Cerrar</button>
+          </sc-if>
+        </div>
+      </div>
+      </sc-if>
+      </div><!-- /bk-scroll -->
+
+      <sc-if value="{{ bkShowNav }}" hint-placeholder-val="{{ true }}">
+        <div class="bk-nav-row" style="flex:none;display:flex;justify-content:space-between;padding:18px 40px;background:#fff;border-top:1px solid rgba(13,122,108,.08)">
+          <button type="button" onClick="{{ prevBk }}" style="visibility:{{ bkBackVisibility }};padding:13px 26px;border-radius:100px;border:1.5px solid rgba(13,122,108,.2);background:#fff;color:#0B5D52;font-weight:700;font-size:14.5px;cursor:pointer">Atrás</button>
+          <button type="button" onClick="{{ nextBk }}" style="padding:13px 30px;border-radius:100px;border:none;background:#0B5D52;color:#fff;font-weight:700;font-size:14.5px;cursor:pointer;opacity:{{ bkNextOpacity }}">{{ bkNextLabel }}</button>
+        </div>
+      </sc-if>
+      </sc-if><!-- /bkGatePassed -->
+
+    </div>
+  </div>
+</sc-if>
+
+<!-- ============ MODAL DETALLE DE SERVICIO ============ -->
+<sc-if value="{{ detailOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeDetail }}" style="position:fixed;inset:0;z-index:258;background:rgba(6,62,56,.72);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;animation:fadeUp .25s both">
+    <div onClick="{{ stopProp }}" class="glass-card" style="position:relative;width:min(520px,100%);max-height:88vh;overflow-y:auto;background:rgba(255,255,255,.72);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);border:1px solid rgba(255,255,255,.5);border-radius:24px;padding:36px;box-shadow:0 30px 70px rgba(11,93,82,.28)">
+      <button type="button" onClick="{{ closeDetail }}" style="position:absolute;top:18px;right:18px;display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:12px;border:1px solid rgba(13,122,108,.14);background:#fff;color:#0B5D52;cursor:pointer"><i data-lucide="x" style="font-size:18px"></i></button>
+
+      <h2 style="font-size:24px;font-weight:800;max-width:85%">{{ detailName }}</h2>
+      <p style="margin-top:8px;font-size:14.5px;color:#596579;line-height:1.6">{{ detailTag }}</p>
+      <div style="display:flex;align-items:flex-end;gap:6px;margin:18px 0;padding:16px;border-radius:16px;background:#E1F7F2">
+        <span style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:26px;color:#0B5D52">{{ detailPrice }}</span>
+        <span style="font-size:14px;color:#596579;margin-bottom:3px">{{ detailPer }}</span>
+      </div>
+      <div style="font-size:14px;font-weight:700;color:#0B5D52;margin-bottom:12px">Tareas incluidas</div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <sc-for list="{{ detailTasks }}" as="t" hint-placeholder-count="8">
+          <div style="display:flex;align-items:flex-start;gap:10px;font-size:14.5px;color:#0B5D52;line-height:1.4"><span style="flex:none;display:flex;margin-top:1px;color:#0EA394"><i data-lucide="check-circle-2" style="font-size:18px"></i></span>{{ t }}</div>
+        </sc-for>
+      </div>
+      <button type="button" onClick="{{ detailReserve }}" class="lbtn" style="margin-top:26px;width:100%;display:flex;align-items:center;justify-content:center;gap:9px;padding:14px;border-radius:100px;background:#0B5D52;color:#fff;font-weight:700;font-size:15px;border:none;cursor:pointer">Reservar este servicio <i data-lucide="arrow-right" style="font-size:16px"></i></button>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ============ MODAL INICIAR SESIÓN / REGISTRARSE ============ -->
+<sc-if value="{{ authOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeAuth }}" style="position:fixed;inset:0;z-index:260;background:rgba(6,62,56,.72);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;animation:fadeUp .25s both">
+    <div onClick="{{ stopProp }}" class="glass-card" style="position:relative;width:min(520px,100%);max-height:92vh;overflow-y:auto;background:rgba(255,255,255,.72);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);border:1px solid rgba(255,255,255,.5);border-radius:24px;padding:36px;box-shadow:0 30px 70px rgba(11,93,82,.28)">
+      <button type="button" onClick="{{ closeAuth }}" style="position:absolute;top:18px;right:18px;display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:12px;border:1px solid rgba(13,122,108,.14);background:#fff;color:#0B5D52;cursor:pointer"><i data-lucide="x" style="font-size:18px"></i></button>
+
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:12px;background:#E1F7F2;color:#0D7A6C"><i data-lucide="user" style="font-size:19px"></i></span><h2 style="font-size:22px;font-weight:800">{{ authTitle }}</h2></div>
+      <p style="margin-top:4px;font-size:13.5px;color:#596579">{{ authSubtitle }}</p>
+
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <button type="button" onClick="{{ setAuthRoleCliente }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:10px;border-radius:12px;border:1.5px solid {{ authRoleClienteBorder }};background:{{ authRoleClienteBg }};color:#0B5D52;font-weight:700;font-size:13px;cursor:pointer"><i data-lucide="user" style="font-size:15px;color:#0D7A6C"></i> Soy cliente</button>
+        <button type="button" onClick="{{ setAuthRoleEmpleado }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:10px;border-radius:12px;border:1.5px solid {{ authRoleEmpleadoBorder }};background:{{ authRoleEmpleadoBg }};color:#0B5D52;font-weight:700;font-size:13px;cursor:pointer"><i data-lucide="badge-check" style="font-size:15px;color:#0D7A6C"></i> Soy administrador</button>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:14px;padding:5px;background:#F3FBFA;border-radius:100px">
+        <button type="button" onClick="{{ setAuthLogin }}" style="flex:1;padding:10px;border-radius:100px;border:none;font-weight:700;font-size:13.5px;cursor:pointer;background:{{ authTabLoginBg }};color:{{ authTabLoginFg }}">Iniciar sesión</button>
+        <button type="button" onClick="{{ setAuthRegister }}" style="flex:1;padding:10px;border-radius:100px;border:none;font-weight:700;font-size:13.5px;cursor:pointer;background:{{ authTabRegisterBg }};color:{{ authTabRegisterFg }}">Registrarse</button>
+      </div>
+
+      <div style="margin-top:14px;padding:12px 14px;border-radius:13px;background:#FFF7DC;color:#8A6D1A;font-size:12.5px;line-height:1.5;display:flex;gap:9px;align-items:flex-start"><i data-lucide="info" style="font-size:16px;flex:none;margin-top:1px"></i> Esta función está en construcción: el formulario todavía no crea ni valida cuentas reales. Muy pronto podrás iniciar sesión y ver el historial de tus reservas aquí.</div>
+
+      <sc-if value="{{ isAuthLogin }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:14px;margin-top:20px">
+          <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Correo
+            <input class="field" type="email" placeholder="correo@ejemplo.com" value="{{ af.correo }}" onChange="{{ h2.correo }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px" />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Contraseña
+            <input class="field" type="password" placeholder="••••••••" value="{{ af.password }}" onChange="{{ h2.password }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px" />
+          </label>
+          <button type="button" onClick="{{ submitLogin }}" class="lbtn" style="margin-top:6px;padding:14px;border-radius:100px;background:#0B5D52;color:#fff;font-weight:700;font-size:15px;border:none;cursor:pointer">Iniciar sesión</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isAuthRegister }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:14px;margin-top:20px">
+          <div style="display:flex;gap:10px">
+            <button type="button" onClick="{{ setPersonaNatural }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:13px;border:1.5px solid {{ personaNaturalBorder }};background:{{ personaNaturalBg }};color:#0B5D52;font-weight:600;font-size:13.5px;cursor:pointer"><i data-lucide="{{ personaNaturalIcon }}" style="font-size:16px;color:#0D7A6C"></i> Persona Natural</button>
+            <button type="button" onClick="{{ setPersonaJuridica }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:13px;border:1.5px solid {{ personaJuridicaBorder }};background:{{ personaJuridicaBg }};color:#0B5D52;font-weight:600;font-size:13.5px;cursor:pointer"><i data-lucide="{{ personaJuridicaIcon }}" style="font-size:16px;color:#0D7A6C"></i> Persona Jurídico</button>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Nombres *
+              <input class="field" placeholder="Ingresa nombres" value="{{ af.nombre }}" onChange="{{ h2.nombre }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:14.5px" />
+            </label>
+            <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Apellidos *
+              <input class="field" placeholder="Ingresa apellidos" value="{{ af.apellidos }}" onChange="{{ h2.apellidos }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:14.5px" />
+            </label>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Tipo de documento *
+              <select class="field" value="{{ af.tipoDocumento }}" onChange="{{ h2.tipoDocumento }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:14.5px">
+                <option value="">Tipo de documento</option>
+                <option value="cc">Cédula de ciudadanía</option>
+                <option value="ce">Cédula de extranjería</option>
+                <option value="pas">Pasaporte</option>
+                <option value="nit">NIT</option>
+              </select>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Número documento *
+              <input class="field" placeholder="Número de documento" value="{{ af.numDocumento }}" onChange="{{ h2.numDocumento }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:14.5px" />
+            </label>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">País *
+              <select class="field" value="{{ af.pais }}" onChange="{{ h2.pais }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:14.5px">
+                <option value="">País</option>
+                <option value="CO">Colombia</option>
+                <option value="MX">México</option>
+                <option value="PE">Perú</option>
+                <option value="CL">Chile</option>
+                <option value="EC">Ecuador</option>
+              </select>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Número de celular *
+              <input class="field" placeholder="Número de celular" value="{{ af.celular }}" onChange="{{ h2.celular }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:14.5px" />
+            </label>
+          </div>
+
+          <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Correo electrónico *
+            <input class="field" type="email" placeholder="Ingresa un correo" value="{{ af.correo }}" onChange="{{ h2.correo }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:14.5px" />
+          </label>
+
+          <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Contraseña *
+            <input class="field" type="password" placeholder="••••••••" value="{{ af.password }}" onChange="{{ h2.password }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:14.5px" />
+          </label>
+
+          <label style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:600;color:#596579">Canal de origen (opcional)
+            <select class="field" value="{{ af.canalOrigen }}" onChange="{{ h2.canalOrigen }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:14.5px">
+              <option value="">Selecciona un canal</option>
+              <option value="redes">Redes sociales</option>
+              <option value="google">Google</option>
+              <option value="recomendado">Recomendado por alguien</option>
+              <option value="otro">Otro</option>
+            </select>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:600;color:#596579">Profesión u oficio (opcional)
+            <input class="field" placeholder="Indica tu profesión u oficio" value="{{ af.profesion }}" onChange="{{ h2.profesion }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:14.5px" />
+          </label>
+
+          <button type="button" onClick="{{ submitRegister }}" class="lbtn" style="margin-top:6px;padding:14px;border-radius:100px;background:#0B5D52;color:#fff;font-weight:700;font-size:15px;border:none;cursor:pointer">Crear cuenta</button>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ============ PORTAL CLIENTE ============ -->
+<sc-if value="{{ portalOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:270;background:radial-gradient(900px 500px at 88% -8%,rgba(29,191,166,.18),transparent 60%),radial-gradient(700px 500px at 4% 105%,rgba(46,125,50,.10),transparent 55%),linear-gradient(160deg,#F3FBFA 0%,#E1F7F2 55%,#EFEBFB 100%);display:flex;flex-direction:column">
+    <div class="glass-card" style="flex:none;display:flex;align-items:center;justify-content:space-between;padding:22px 32px;background:rgba(11,93,82,.62);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);border-bottom:1px solid rgba(255,255,255,.1);color:#fff">
+      <div style="display:flex;align-items:center;gap:14px"><img src="./uploads/logo.png?v=1" alt="Aurora Integral" style="height:46px;width:46px;object-fit:contain;flex:none"><div style="width:1px;height:32px;background:rgba(255,255,255,.18)"></div><div><div style="font-weight:800;font-size:16px;color:#fff">Aurora Integral</div><div style="font-weight:600;font-size:12.5px;color:rgba(255,255,255,.7)">Portal de Cliente</div></div></div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <button type="button" onClick="{{ setTabNotif }}" style="position:relative;display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:11px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;cursor:pointer">
+          <i data-lucide="bell" style="font-size:17px"></i>
+          <sc-if value="{{ notifCount }}" hint-placeholder-val="{{ 0 }}"><span style="position:absolute;top:-5px;right:-5px;display:flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 4px;border-radius:100px;background:#c0392b;color:#fff;font-size:10.5px;font-weight:800">{{ notifCount }}</span></sc-if>
+        </button>
+        <button type="button" onClick="{{ setTabPerfil }}" style="display:flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;border-radius:100px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;cursor:pointer">
+          <span style="display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#1DBFA6;color:#0B5D52"><i data-lucide="user" style="font-size:14px"></i></span>
+          <span style="font-weight:700;font-size:13.5px">Hola, {{ clientName }}</span>
+          <i data-lucide="chevron-down" style="font-size:14px"></i>
+        </button>
+        <button type="button" onClick="{{ closePortal }}" style="display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:100px;border:1px solid rgba(255,255,255,.25);background:none;color:#fff;font-weight:600;font-size:13.5px;cursor:pointer"><i data-lucide="x" style="font-size:15px"></i> Volver al sitio</button>
+      </div>
+    </div>
+    <div style="flex:1;display:flex;overflow:hidden">
+      <div style="flex:none;width:230px;background:rgba(255,255,255,.45);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border-right:1px solid rgba(255,255,255,.5);padding:18px 12px;display:flex;flex-direction:column;gap:3px;overflow-y:auto">
+        <button type="button" onClick="{{ setTabInicio }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:{{ tabInicioBg }};color:{{ tabInicioFg }};font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="home" style="font-size:17px"></i> Inicio</button>
+        <button type="button" onClick="{{ setTabCitas }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:{{ tabCitasBg }};color:{{ tabCitasFg }};font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="calendar-days" style="font-size:17px"></i> Mis citas</button>
+        <button type="button" onClick="{{ openBookingFromPortal }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:none;color:#0B5D52;font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="calendar-plus" style="font-size:17px;color:#1DBFA6"></i> Agendar servicio</button>
+        <button type="button" onClick="{{ setTabHistorial }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:{{ tabHistorialBg }};color:{{ tabHistorialFg }};font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="history" style="font-size:17px"></i> Historial</button>
+        <button type="button" onClick="{{ setTabSaldo }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:{{ tabSaldoBg }};color:{{ tabSaldoFg }};font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="wallet" style="font-size:17px"></i> Mi saldo</button>
+        <button type="button" onClick="{{ setTabCatalogo }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:{{ tabCatalogoBg }};color:{{ tabCatalogoFg }};font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="list" style="font-size:17px"></i> Catálogo de servicios</button>
+        <button type="button" onClick="{{ setTabPromos }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:{{ tabPromosBg }};color:{{ tabPromosFg }};font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="gift" style="font-size:17px"></i> Promociones</button>
+        <button type="button" onClick="{{ setTabNotif }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:{{ tabNotifBg }};color:{{ tabNotifFg }};font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="bell" style="font-size:17px"></i> Notificaciones</button>
+        <button type="button" onClick="{{ setTabPerfil }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:{{ tabPerfilBg }};color:{{ tabPerfilFg }};font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="settings" style="font-size:17px"></i> Mi perfil</button>
+        <div style="flex:1"></div>
+        <button type="button" onClick="{{ setTabAyuda }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:{{ tabAyudaBg }};color:{{ tabAyudaFg }};font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="help-circle" style="font-size:17px"></i> Ayuda y soporte</button>
+        <button type="button" onClick="{{ logout }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:none;color:#c0392b;font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="log-out" style="font-size:17px"></i> Cerrar sesión</button>
+      </div>
+
+      <div style="flex:1;overflow-y:auto;padding:36px 40px;background:transparent">
+        <sc-if value="{{ isTabInicio }}" hint-placeholder-val="{{ true }}">
+          <h2 style="font-size:24px;font-weight:800">¡Hola, {{ clientName }}! 👋</h2>
+          <p style="margin-top:6px;font-size:14px;color:#596579">Aquí puedes ver tus próximas citas y gestionar tus servicios.</p>
+
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px">
+            <div class="glass-card" style="background:rgba(29,191,166,.18);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border:1px solid rgba(255,255,255,.5);border-radius:18px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:14px">
+              <div>
+                <div style="font-size:13px;font-weight:600;color:#0D7A6C">Saldo disponible</div>
+                <div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:26px;color:#0B5D52;margin-top:6px">{{ walletBalanceFmt }}</div>
+                <button type="button" onClick="{{ setTabSaldo }}" style="margin-top:12px;display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:100px;border:none;background:#0B5D52;color:#fff;font-weight:700;font-size:12.5px;cursor:pointer"><i data-lucide="plus" style="font-size:14px"></i> Agregar saldo</button>
+              </div>
+              <span style="flex:none;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:#fff;color:#0D7A6C"><i data-lucide="wallet" style="font-size:21px"></i></span>
+            </div>
+
+            <div class="glass-card" style="background:rgba(46,125,50,.15);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border:1px solid rgba(255,255,255,.5);border-radius:18px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:14px">
+              <div>
+                <div style="font-size:13px;font-weight:600;color:#2E7D32">Próxima cita</div>
+                <div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:20px;color:#0B5D52;margin-top:6px">{{ nextApptDate }}</div>
+                <div style="font-size:13px;color:#596579;margin-top:4px">{{ nextApptTime }}</div>
+              </div>
+              <span style="flex:none;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:#fff;color:#2E7D32"><i data-lucide="calendar-check" style="font-size:21px"></i></span>
+            </div>
+
+            <div class="glass-card" style="background:rgba(91,63,166,.15);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border:1px solid rgba(255,255,255,.5);border-radius:18px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:14px">
+              <div>
+                <div style="font-size:13px;font-weight:600;color:#5B3FA6">Citas completadas</div>
+                <div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:26px;color:#0B5D52;margin-top:6px">{{ completedCount }}</div>
+                <button type="button" onClick="{{ setTabHistorial }}" style="margin-top:12px;display:flex;align-items:center;gap:6px;background:none;border:none;color:#5B3FA6;font-weight:700;font-size:12.5px;cursor:pointer;padding:0">Ver historial <i data-lucide="arrow-right" style="font-size:13px"></i></button>
+              </div>
+              <span style="flex:none;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:#fff;color:#5B3FA6"><i data-lucide="clipboard-check" style="font-size:21px"></i></span>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:36px;flex-wrap:wrap;gap:12px">
+            <h3 style="font-size:19px;font-weight:800">Mis citas próximas</h3>
+            <button type="button" onClick="{{ setTabCitas }}" style="display:flex;align-items:center;gap:7px;padding:10px 18px;border-radius:100px;border:1.5px solid rgba(13,122,108,.16);background:#fff;color:#0D7A6C;font-weight:700;font-size:13px;cursor:pointer"><i data-lucide="calendar-days" style="font-size:15px"></i> Ver todas mis citas</button>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:18px">
+            <sc-for list="{{ upcomingPreview }}" as="a" hint-placeholder-count="2">
+              <div class="glass-card" style="background:rgba(255,255,255,.55);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.6);border-radius:16px;padding:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+                <div style="flex:none;width:90px;height:70px;border-radius:12px;overflow:hidden"><image-slot id="apt-{{ a.id }}" shape="rect" fit="cover" src="{{ a.photoUrl }}" placeholder="Foto del servicio" style="width:100%;height:100%"></image-slot></div>
+                <div style="flex:1;min-width:220px">
+                  <div style="display:flex;align-items:center;gap:10px"><span style="flex:none;display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:#E1F7F2;color:#0D7A6C"><i data-lucide="brush" style="font-size:15px"></i></span><div style="font-weight:700;font-size:15px;color:#0B5D52">{{ a.service }}</div></div>
+                  <p style="margin-top:6px;margin-left:40px;font-size:13px;color:#596579">Servicio de limpieza profunda para tu hogar.</p>
+                  <div style="margin-top:8px;margin-left:40px;display:flex;align-items:center;gap:14px;font-size:12.5px;color:#596579;flex-wrap:wrap"><span style="display:flex;align-items:center;gap:5px"><i data-lucide="calendar" style="font-size:13px;color:#0D7A6C"></i> {{ a.date }}</span><span style="display:flex;align-items:center;gap:5px"><i data-lucide="clock" style="font-size:13px;color:#0D7A6C"></i> {{ a.time }}</span><span style="display:flex;align-items:center;gap:5px"><i data-lucide="map-pin" style="font-size:13px;color:#0D7A6C"></i> {{ a.address }}</span></div>
+                  <div style="margin-top:10px;margin-left:40px;display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border-radius:11px;background:{{ a.noteBg }};max-width:420px">
+                    <i data-lucide="{{ a.noteIcon }}" style="font-size:15px;color:{{ a.noteColor }};flex:none;margin-top:1px"></i>
+                    <div><div style="font-weight:700;font-size:12.5px;color:{{ a.noteColor }}">{{ a.noteTitle }}</div><div style="font-size:12px;color:#596579;margin-top:1px">{{ a.noteDesc }}</div></div>
+                  </div>
+                </div>
+                <div style="flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:10px">
+                  <span style="padding:7px 14px;border-radius:100px;background:{{ a.statusBg }};color:{{ a.statusColor }};font-weight:700;font-size:12px;white-space:nowrap;display:flex;align-items:center;gap:6px"><i data-lucide="{{ a.noteIcon }}" style="font-size:13px"></i> {{ a.status }}</span>
+                  <button type="button" onClick="{{ setTabCitas }}" style="display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:100px;border:1.5px solid rgba(13,122,108,.16);background:#fff;color:#0D7A6C;font-weight:700;font-size:12.5px;cursor:pointer;white-space:nowrap">Ver detalles <i data-lucide="arrow-right" style="font-size:13px"></i></button>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="margin-top:28px;padding:24px 28px;border-radius:18px;background:linear-gradient(135deg,#0D7A6C,#0B5D52);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+            <div style="display:flex;align-items:center;gap:14px">
+              <span style="flex:none;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:rgba(255,255,255,.14);color:#1DBFA6"><i data-lucide="tag" style="font-size:21px"></i></span>
+              <div><div style="font-weight:800;font-size:16px;color:#fff">¡Aprovecha nuestras promociones!</div><div style="font-size:13px;color:rgba(255,255,255,.75);margin-top:2px">Descubre descuentos exclusivos para ti.</div></div>
+            </div>
+            <button type="button" onClick="{{ setTabPromos }}" style="flex:none;display:flex;align-items:center;gap:8px;padding:12px 20px;border-radius:100px;border:none;background:#fff;color:#0B5D52;font-weight:700;font-size:13.5px;cursor:pointer"><i data-lucide="gift" style="font-size:16px"></i> Ver promociones</button>
+          </div>
+        </sc-if>
+
+<sc-if value="{{ isTabCitas }}" hint-placeholder-val="{{ false }}">
+          <h2 style="font-size:24px;font-weight:800">Mis citas próximas</h2>
+          <p style="margin-top:6px;font-size:14px;color:#596579">Estos son tus servicios programados.</p>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:24px">
+            <sc-for list="{{ upcomingAppointments }}" as="a" hint-placeholder-count="2">
+              <div class="glass-card" style="background:rgba(255,255,255,.55);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.6);border-radius:16px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+                <div>
+                  <div style="font-weight:700;font-size:15.5px;color:#0B5D52">{{ a.service }}</div>
+                  <div style="margin-top:6px;display:flex;align-items:center;gap:16px;font-size:13px;color:#596579;flex-wrap:wrap"><span style="display:flex;align-items:center;gap:6px"><i data-lucide="calendar" style="font-size:14px;color:#0D7A6C"></i> {{ a.date }} · {{ a.time }}</span><span style="display:flex;align-items:center;gap:6px"><i data-lucide="map-pin" style="font-size:14px;color:#0D7A6C"></i> {{ a.address }}</span></div>
+                </div>
+                <span style="padding:7px 14px;border-radius:100px;background:{{ a.statusBg }};color:{{ a.statusColor }};font-weight:700;font-size:12.5px;white-space:nowrap">{{ a.status }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isTabHistorial }}" hint-placeholder-val="{{ false }}">
+          <h2 style="font-size:24px;font-weight:800">Historial de servicios</h2>
+          <p style="margin-top:6px;font-size:14px;color:#596579">Servicios que ya realizamos para ti.</p>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:24px">
+            <sc-for list="{{ pastAppointments }}" as="a" hint-placeholder-count="2">
+              <div class="glass-card" style="background:rgba(255,255,255,.55);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.6);border-radius:16px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+                <div>
+                  <div style="font-weight:700;font-size:15.5px;color:#0B5D52">{{ a.service }}</div>
+                  <div style="margin-top:6px;display:flex;align-items:center;gap:16px;font-size:13px;color:#596579;flex-wrap:wrap"><span style="display:flex;align-items:center;gap:6px"><i data-lucide="calendar" style="font-size:14px;color:#0D7A6C"></i> {{ a.date }} · {{ a.time }}</span><span style="display:flex;align-items:center;gap:6px"><i data-lucide="map-pin" style="font-size:14px;color:#0D7A6C"></i> {{ a.address }}</span></div>
+                </div>
+                <span style="padding:7px 14px;border-radius:100px;background:{{ a.statusBg }};color:{{ a.statusColor }};font-weight:700;font-size:12.5px;white-space:nowrap">{{ a.status }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isTabSaldo }}" hint-placeholder-val="{{ false }}">
+          <h2 style="font-size:24px;font-weight:800">Mi saldo</h2>
+          <p style="margin-top:6px;font-size:14px;color:#596579">Usa tu saldo Aurora para pagar tus próximos servicios.</p>
+          <div style="margin-top:24px;max-width:640px;padding:24px;border-radius:18px;background:linear-gradient(135deg,#0D7A6C,#0B5D52);color:#fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+            <div><div style="font-size:13px;color:rgba(255,255,255,.7)">Saldo disponible</div><div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:32px;margin-top:4px">{{ walletBalanceFmt }}</div></div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input class="field" placeholder="Monto a agregar" value="{{ walletTopUp }}" onChange="{{ setWalletTopUp }}" style="padding:11px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-size:14px;width:160px" />
+              <button type="button" onClick="{{ topUpWallet }}" style="padding:11px 18px;border-radius:12px;border:none;background:#1DBFA6;color:#0B5D52;font-weight:700;font-size:13.5px;cursor:pointer;white-space:nowrap">Agregar saldo</button>
+            </div>
+          </div>
+          <h3 style="margin-top:32px;font-size:16px;font-weight:800">Historial de movimientos</h3>
+          <div style="display:flex;flex-direction:column;gap:2px;margin-top:14px;max-width:640px">
+            <sc-for list="{{ walletHistoryFmt }}" as="w" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px dashed rgba(13,122,108,.14)">
+                <div><div style="font-weight:600;font-size:14px;color:#0B5D52">{{ w.label }}</div><div style="font-size:12px;color:#596579">{{ w.date }}</div></div>
+                <span style="font-weight:800;font-size:14.5px;color:{{ w.color }}">{{ w.amountFmt }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isTabCatalogo }}" hint-placeholder-val="{{ false }}">
+          <h2 style="font-size:24px;font-weight:800">Catálogo de servicios</h2>
+          <p style="margin-top:6px;font-size:14px;color:#596579">Duración y precio de cada servicio disponible.</p>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:24px">
+            <sc-for list="{{ catalogServices }}" as="s" hint-placeholder-count="5">
+              <div class="glass-card" style="background:rgba(255,255,255,.55);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.6);border-radius:16px;padding:20px">
+                <div style="font-weight:700;font-size:15.5px;color:#0B5D52">{{ s.name }}</div>
+                <p style="margin-top:6px;font-size:13px;color:#596579;line-height:1.5">{{ s.tag }}</p>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px">
+                  <span style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#596579"><i data-lucide="timer" style="font-size:14px;color:#0D7A6C"></i> {{ s.dur }}</span>
+                  <span style="font-weight:800;font-size:18px;color:#0D7A6C">{{ s.price }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isTabPromos }}" hint-placeholder-val="{{ false }}">
+          <h2 style="font-size:24px;font-weight:800">Promociones vigentes</h2>
+          <p style="margin-top:6px;font-size:14px;color:#596579">Aprovecha estos descuentos en tu próxima reserva.</p>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:24px;max-width:640px">
+            <sc-for list="{{ promotions }}" as="p" hint-placeholder-count="3">
+              <div class="glass-card" style="background:rgba(255,255,255,.55);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.6);border-radius:16px;padding:20px;display:flex;gap:16px">
+                <span style="flex:none;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:#FFF3C9;color:#8A6D1A"><i data-lucide="{{ p.icon }}" style="font-size:21px"></i></span>
+                <div style="flex:1">
+                  <div style="font-weight:700;font-size:15px;color:#0B5D52">{{ p.title }}</div>
+                  <p style="margin-top:5px;font-size:13px;color:#596579;line-height:1.5">{{ p.desc }}</p>
+                  <div style="margin-top:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="padding:5px 12px;border-radius:100px;background:#E1F7F2;color:#0D7A6C;font-weight:800;font-size:12px;letter-spacing:.03em">{{ p.code }}</span><span style="font-size:12px;color:#596579">Vigente hasta {{ p.validUntil }}</span></div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isTabNotif }}" hint-placeholder-val="{{ false }}">
+          <h2 style="font-size:24px;font-weight:800">Notificaciones</h2>
+          <p style="margin-top:6px;font-size:14px;color:#596579">Novedades sobre tus citas y promociones.</p>
+          <div style="display:flex;flex-direction:column;gap:2px;margin-top:24px;max-width:640px">
+            <sc-for list="{{ notifications }}" as="n" hint-placeholder-count="3">
+              <div style="display:flex;gap:14px;padding:16px 4px;border-bottom:1px solid rgba(13,122,108,.06);background:{{ n.bg }};border-radius:12px">
+                <span style="flex:none;display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:11px;background:#E1F7F2;color:#0D7A6C"><i data-lucide="{{ n.icon }}" style="font-size:18px"></i></span>
+                <div style="flex:1"><div style="font-weight:700;font-size:14px;color:#0B5D52">{{ n.title }}</div><div style="font-size:13px;color:#596579;margin-top:2px">{{ n.desc }}</div><div style="font-size:11.5px;color:#9AA6B8;margin-top:4px">{{ n.time }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isTabPerfil }}" hint-placeholder-val="{{ false }}">
+          <h2 style="font-size:24px;font-weight:800">Mi perfil</h2>
+          <p style="margin-top:6px;font-size:14px;color:#596579">Administra tu información personal y datos de contacto.</p>
+          <div style="display:flex;flex-direction:column;gap:16px;margin-top:24px;max-width:440px">
+            <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Nombre completo
+              <input class="field" value="{{ af.nombre }}" onChange="{{ h2.nombre }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px" />
+            </label>
+            <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Correo
+              <input class="field" type="email" value="{{ af.correo }}" onChange="{{ h2.correo }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px" />
+            </label>
+            <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Teléfono
+              <input class="field" value="{{ af.celular }}" onChange="{{ h2.celular }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px" />
+            </label>
+            <button type="button" onClick="{{ saveProfile }}" class="lbtn" style="margin-top:6px;padding:14px;border-radius:100px;background:#0B5D52;color:#fff;font-weight:700;font-size:15px;border:none;cursor:pointer">Guardar cambios</button>
+            <sc-if value="{{ profileSaved }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:12px 14px;border-radius:12px;background:#e9f7ec;color:#2E7D32;font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:8px"><i data-lucide="check-circle-2" style="font-size:17px"></i> Cambios guardados</div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isTabAyuda }}" hint-placeholder-val="{{ false }}">
+          <h2 style="font-size:24px;font-weight:800">Ayuda y soporte</h2>
+          <p style="margin-top:6px;font-size:14px;color:#596579">¿Tienes dudas? Contáctanos por cualquiera de estos canales.</p>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:24px;max-width:520px">
+            <sc-for list="{{ contacts }}" as="c" hint-placeholder-count="4">
+              <div class="glass-card" style="display:flex;align-items:center;gap:15px;padding:16px 18px;background:rgba(255,255,255,.55);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.6);border-radius:16px">
+                <span style="flex:none;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:{{ c.bg }};color:{{ c.fg }}"><i data-lucide="{{ c.icon }}" style="font-size:20px"></i></span>
+                <div><div style="font-size:12.5px;color:#596579">{{ c.label }}</div><div style="font-weight:700;font-size:15px;color:#0B5D52">{{ c.value }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+          <a href="https://wa.me/573000000000" target="_blank" rel="noopener" class="lbtn" style="margin-top:20px;display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:100px;background:#25D366;color:#fff;font-weight:700;font-size:14px;width:fit-content"><i data-lucide="message-circle" style="font-size:17px"></i> Escríbenos por WhatsApp</a>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ============ PANEL ADMINISTRADOR ============ -->
+<sc-if value="{{ adminOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:270;background:radial-gradient(900px 500px at 88% -8%,rgba(29,191,166,.18),transparent 60%),radial-gradient(700px 500px at 4% 105%,rgba(46,125,50,.10),transparent 55%),linear-gradient(160deg,#F3FBFA 0%,#E1F7F2 55%,#EFEBFB 100%);display:flex;flex-direction:column">
+    <div class="glass-card" style="flex:none;display:flex;align-items:center;justify-content:space-between;padding:22px 32px;background:rgba(11,93,82,.62);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);border-bottom:1px solid rgba(255,255,255,.1);color:#fff">
+      <div style="display:flex;align-items:center;gap:14px"><img src="./uploads/logo.png?v=1" alt="Aurora Integral" style="height:46px;width:46px;object-fit:contain;flex:none"><div style="width:1px;height:32px;background:rgba(255,255,255,.18)"></div><div><div style="font-weight:800;font-size:16px;color:#fff">Aurora Integral</div><div style="font-weight:600;font-size:12.5px;color:rgba(255,255,255,.7)">Panel de Administrador</div></div></div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;border-radius:100px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08)">
+          <span style="display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#1DBFA6;color:#0B5D52"><i data-lucide="badge-check" style="font-size:14px"></i></span>
+          <span style="font-weight:700;font-size:13.5px">{{ authUser.nombre }}</span>
+        </div>
+        <button type="button" onClick="{{ closeAdmin }}" style="display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:100px;border:1px solid rgba(255,255,255,.25);background:none;color:#fff;font-weight:600;font-size:13.5px;cursor:pointer"><i data-lucide="x" style="font-size:15px"></i> Volver al sitio</button>
+      </div>
+    </div>
+    <div style="flex:1;display:flex;overflow:hidden">
+      <div style="flex:none;width:230px;background:rgba(255,255,255,.45);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border-right:1px solid rgba(255,255,255,.5);padding:18px 12px;display:flex;flex-direction:column;gap:3px;overflow-y:auto">
+        <button type="button" onClick="{{ setAdminInicio }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:{{ adminInicioBg }};color:{{ adminInicioFg }};font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="home" style="font-size:17px"></i> Inicio</button>
+        <button type="button" onClick="{{ setAdminAgenda }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:{{ adminAgendaBg }};color:{{ adminAgendaFg }};font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="calendar-days" style="font-size:17px"></i> Agenda general</button>
+        <button type="button" onClick="{{ setAdminClientes }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:{{ adminClientesBg }};color:{{ adminClientesFg }};font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="users" style="font-size:17px"></i> Clientes</button>
+        <button type="button" onClick="{{ setAdminServicios }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:{{ adminServiciosBg }};color:{{ adminServiciosFg }};font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="list" style="font-size:17px"></i> Servicios y tarifas</button>
+        <button type="button" onClick="{{ setAdminExpertas }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:{{ adminExpertasBg }};color:{{ adminExpertasFg }};font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="user-round" style="font-size:17px"></i> Expertas</button>
+        <button type="button" onClick="{{ setAdminPromos }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:{{ adminPromosBg }};color:{{ adminPromosFg }};font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="gift" style="font-size:17px"></i> Promociones</button>
+        <button type="button" onClick="{{ setAdminReportes }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:{{ adminReportesBg }};color:{{ adminReportesFg }};font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="bar-chart-3" style="font-size:17px"></i> Reportes</button>
+        <div style="flex:1"></div>
+        <button type="button" onClick="{{ logout }}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;border:none;background:none;color:#c0392b;font-weight:700;font-size:14px;cursor:pointer;text-align:left"><i data-lucide="log-out" style="font-size:17px"></i> Cerrar sesión</button>
+      </div>
+
+      <div style="flex:1;overflow-y:auto;padding:36px 40px;background:transparent">
+        <sc-if value="{{ isAdminInicio }}" hint-placeholder-val="{{ true }}">
+          <h2 style="font-size:24px;font-weight:800">¡Hola, {{ authUser.nombre }}! 👋</h2>
+          <p style="margin-top:6px;font-size:14px;color:#596579">Este es el resumen de la operación de hoy.</p>
+
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px">
+            <sc-for list="{{ agendaKpis }}" as="k" hint-placeholder-count="4">
+              <div class="glass-card" style="background:{{ k.bg }};backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.5);border-radius:18px;padding:20px;display:flex;align-items:center;gap:14px">
+                <span style="flex:none;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:#fff;color:{{ k.color }}"><i data-lucide="{{ k.icon }}" style="font-size:21px"></i></span>
+                <div><div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:24px;color:#0B5D52;line-height:1">{{ k.value }}</div><div style="font-size:12px;color:#596579;margin-top:3px;line-height:1.3">{{ k.label }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+
+          <h3 style="margin-top:32px;font-size:16px;font-weight:800">Este mes</h3>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:14px">
+            <div class="glass-card" style="background:rgba(29,191,166,.18);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border:1px solid rgba(255,255,255,.5);border-radius:18px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:14px"><div><div style="font-size:13px;font-weight:600;color:#0D7A6C">Servicios este mes</div><div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:28px;color:#0B5D52;margin-top:6px">86</div></div><span style="flex:none;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:#fff;color:#0D7A6C"><i data-lucide="sparkles" style="font-size:21px"></i></span></div>
+            <div class="glass-card" style="background:rgba(46,125,50,.15);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border:1px solid rgba(255,255,255,.5);border-radius:18px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:14px"><div><div style="font-size:13px;font-weight:600;color:#2E7D32">Clientes activos</div><div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:28px;color:#0B5D52;margin-top:6px">142</div></div><span style="flex:none;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:#fff;color:#2E7D32"><i data-lucide="users" style="font-size:21px"></i></span></div>
+            <div class="glass-card" style="background:rgba(91,63,166,.15);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border:1px solid rgba(255,255,255,.5);border-radius:18px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:14px"><div><div style="font-size:13px;font-weight:600;color:#5B3FA6">Satisfacción</div><div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:28px;color:#0B5D52;margin-top:6px">98%</div></div><span style="flex:none;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:#fff;color:#5B3FA6"><i data-lucide="heart-handshake" style="font-size:21px"></i></span></div>
+          </div>
+
+          <h3 style="margin-top:32px;font-size:16px;font-weight:800">Accesos rápidos</h3>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px">
+            <button type="button" onClick="{{ setAdminAgenda }}" style="display:flex;align-items:center;gap:12px;padding:16px 18px;border-radius:14px;border:1px solid rgba(255,255,255,.6);background:rgba(255,255,255,.5);backdrop-filter:blur(12px) saturate(160%);-webkit-backdrop-filter:blur(12px) saturate(160%);cursor:pointer;text-align:left"><span style="flex:none;display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:11px;background:#E1F7F2;color:#0D7A6C"><i data-lucide="calendar-days" style="font-size:18px"></i></span><span style="font-weight:700;font-size:14px;color:#0B5D52">Agenda general</span></button>
+            <button type="button" onClick="{{ setAdminClientes }}" style="display:flex;align-items:center;gap:12px;padding:16px 18px;border-radius:14px;border:1px solid rgba(255,255,255,.6);background:rgba(255,255,255,.5);backdrop-filter:blur(12px) saturate(160%);-webkit-backdrop-filter:blur(12px) saturate(160%);cursor:pointer;text-align:left"><span style="flex:none;display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:11px;background:#E1F7F2;color:#0D7A6C"><i data-lucide="users" style="font-size:18px"></i></span><span style="font-weight:700;font-size:14px;color:#0B5D52">Clientes</span></button>
+            <button type="button" onClick="{{ setAdminReportes }}" style="display:flex;align-items:center;gap:12px;padding:16px 18px;border-radius:14px;border:1px solid rgba(255,255,255,.6);background:rgba(255,255,255,.5);backdrop-filter:blur(12px) saturate(160%);-webkit-backdrop-filter:blur(12px) saturate(160%);cursor:pointer;text-align:left"><span style="flex:none;display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:11px;background:#E1F7F2;color:#0D7A6C"><i data-lucide="bar-chart-3" style="font-size:18px"></i></span><span style="font-weight:700;font-size:14px;color:#0B5D52">Reportes</span></button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isAdminAgenda }}" hint-placeholder-val="{{ false }}">
+          <h2 style="font-size:24px;font-weight:800">Agenda general</h2>
+          <p style="margin-top:6px;font-size:14px;color:#596579">Todos los servicios agendados por los clientes.</p>
+
+          <div style="display:flex;flex-direction:column;gap:12px;margin-top:24px">
+            <sc-for list="{{ allAppointments }}" as="a" hint-placeholder-count="4">
+              <div class="glass-card" style="background:rgba(255,255,255,.55);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.6);border-left:4px solid {{ a.statusColor }};border-radius:16px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+                <div style="display:flex;align-items:center;gap:14px">
+                  <span style="flex:none;display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:#E1F7F2;color:#0D7A6C;font-weight:800;font-size:13.5px">{{ a.initials }}</span>
+                  <div>
+                    <div style="font-weight:700;font-size:15px;color:#0B5D52">{{ a.cliente }} · {{ a.service }}</div>
+                    <div style="margin-top:6px;display:flex;align-items:center;gap:16px;font-size:13px;color:#596579;flex-wrap:wrap"><span style="display:flex;align-items:center;gap:6px"><i data-lucide="calendar" style="font-size:14px;color:#0D7A6C"></i> {{ a.date }} · {{ a.time }}</span><span style="display:flex;align-items:center;gap:6px"><i data-lucide="user-check" style="font-size:14px;color:#0D7A6C"></i> {{ a.asistente }}</span></div>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="padding:7px 14px;border-radius:100px;background:{{ a.statusBg }};color:{{ a.statusColor }};font-weight:700;font-size:12.5px;white-space:nowrap">{{ a.status }}</span>
+                  <button type="button" style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;border:1px solid rgba(13,122,108,.16);background:#fff;color:#0B5D52;cursor:pointer"><i data-lucide="pencil" style="font-size:15px"></i></button>
+                  <button type="button" style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;border:1px solid rgba(192,57,43,.25);background:#fff;color:#c0392b;cursor:pointer"><i data-lucide="x" style="font-size:15px"></i></button>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isAdminClientes }}" hint-placeholder-val="{{ false }}">
+          <h2 style="font-size:24px;font-weight:800">Clientes</h2>
+          <p style="margin-top:6px;font-size:14px;color:#596579">Información de contacto y actividad de cada cliente.</p>
+
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px">
+            <sc-for list="{{ clientesKpis }}" as="k" hint-placeholder-count="3">
+              <div class="glass-card" style="background:{{ k.bg }};backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.5);border-radius:18px;padding:20px;display:flex;align-items:center;gap:14px">
+                <span style="flex:none;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:#fff;color:{{ k.color }}"><i data-lucide="{{ k.icon }}" style="font-size:21px"></i></span>
+                <div><div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:24px;color:#0B5D52;line-height:1">{{ k.value }}</div><div style="font-size:12px;color:#596579;margin-top:3px;line-height:1.3">{{ k.label }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px;margin-top:24px">
+            <sc-for list="{{ mockClients }}" as="c" hint-placeholder-count="3">
+              <div class="glass-card" style="background:rgba(255,255,255,.55);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.6);border-left:4px solid {{ c.accentColor }};border-radius:16px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+                <div style="display:flex;align-items:center;gap:14px">
+                  <span style="flex:none;display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:#E1F7F2;color:#0D7A6C;font-weight:800;font-size:13.5px">{{ c.initials }}</span>
+                  <div>
+                    <div style="font-weight:700;font-size:15px;color:#0B5D52">{{ c.nombre }}</div>
+                    <div style="margin-top:6px;display:flex;align-items:center;gap:16px;font-size:13px;color:#596579;flex-wrap:wrap"><span>{{ c.correo }}</span><span>{{ c.telefono }}</span><span>{{ c.citas }} citas · Saldo {{ c.saldo }}</span></div>
+                  </div>
+                </div>
+                <div style="display:flex;gap:8px">
+                  <a href="https://wa.me/573000000000" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:#e9f7ec;color:#25a34a"><i data-lucide="message-circle" style="font-size:16px"></i></a>
+                  <a href="mailto:hola@asseo.co" style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:#E1F7F2;color:#0D7A6C"><i data-lucide="mail" style="font-size:16px"></i></a>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isAdminServicios }}" hint-placeholder-val="{{ false }}">
+          <h2 style="font-size:24px;font-weight:800">Servicios y tarifas</h2>
+          <p style="margin-top:6px;font-size:14px;color:#596579">Ajusta el precio de cada servicio ofrecido.</p>
+
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px">
+            <sc-for list="{{ serviciosKpis }}" as="k" hint-placeholder-count="3">
+              <div class="glass-card" style="background:{{ k.bg }};backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.5);border-radius:18px;padding:20px;display:flex;align-items:center;gap:14px">
+                <span style="flex:none;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:#fff;color:{{ k.color }}"><i data-lucide="{{ k.icon }}" style="font-size:21px"></i></span>
+                <div><div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:24px;color:#0B5D52;line-height:1">{{ k.value }}</div><div style="font-size:12px;color:#596579;margin-top:3px;line-height:1.3">{{ k.label }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px;margin-top:24px;max-width:640px">
+            <sc-for list="{{ adminServices }}" as="s" hint-placeholder-count="5">
+              <div class="glass-card" style="background:rgba(255,255,255,.55);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.6);border-left:4px solid {{ s.accentColor }};border-radius:16px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+                <div style="display:flex;align-items:center;gap:14px">
+                  <span style="flex:none;display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;background:{{ s.accentBg }};color:{{ s.accentColor }}"><i data-lucide="{{ s.icon }}" style="font-size:19px"></i></span>
+                  <div><div style="font-weight:700;font-size:14.5px;color:#0B5D52">{{ s.name }}</div><div style="font-size:12.5px;color:#596579;margin-top:2px">{{ s.dur }}</div></div>
+                </div>
+                <input class="field" value="{{ s.price }}" onChange="{{ s.onChange }}" style="width:120px;padding:10px 12px;border-radius:11px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:14px;font-weight:700;text-align:right" />
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isAdminExpertas }}" hint-placeholder-val="{{ false }}">
+          <h2 style="font-size:24px;font-weight:800">Expertas</h2>
+          <p style="margin-top:6px;font-size:14px;color:#596579">Actualiza el nombre, la calificación y la especialidad de cada experta. Esto se refleja de inmediato en el "Match de Expertas" que ve el cliente.</p>
+
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px">
+            <sc-for list="{{ expertasKpis }}" as="k" hint-placeholder-count="3">
+              <div class="glass-card" style="background:{{ k.bg }};backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.5);border-radius:18px;padding:20px;display:flex;align-items:center;gap:14px">
+                <span style="flex:none;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:#fff;color:{{ k.color }}"><i data-lucide="{{ k.icon }}" style="font-size:21px"></i></span>
+                <div><div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:24px;color:#0B5D52;line-height:1">{{ k.value }}</div><div style="font-size:12px;color:#596579;margin-top:3px;line-height:1.3">{{ k.label }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:24px;max-width:680px">
+            <sc-for list="{{ adminExperts }}" as="e" hint-placeholder-count="3">
+              <div class="glass-card" style="background:rgba(255,255,255,.55);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.6);border-left:4px solid {{ e.accentColor }};border-radius:16px;padding:16px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+                <img src="{{ e.photo }}" alt="{{ e.name }}" style="width:48px;height:48px;border-radius:50%;object-fit:cover;flex:none" />
+                <input class="field" value="{{ e.name }}" onChange="{{ e.onNameChange }}" style="flex:1;min-width:160px;padding:10px 12px;border-radius:11px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:14px;font-weight:700" />
+                <input class="field" value="{{ e.specialty }}" onChange="{{ e.onSpecialtyChange }}" style="flex:1;min-width:160px;padding:10px 12px;border-radius:11px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:14px" />
+                <select class="field" value="{{ e.rating }}" onChange="{{ e.onRatingChange }}" style="width:90px;padding:10px 8px;border-radius:11px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:14px;font-weight:700">
+                  <option value="1">1 ★</option>
+                  <option value="2">2 ★</option>
+                  <option value="3">3 ★</option>
+                  <option value="4">4 ★</option>
+                  <option value="5">5 ★</option>
+                </select>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isAdminPromos }}" hint-placeholder-val="{{ false }}">
+          <h2 style="font-size:24px;font-weight:800">Promociones y descuentos</h2>
+          <p style="margin-top:6px;font-size:14px;color:#596579">Administra las campañas activas para los clientes.</p>
+
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px;max-width:640px">
+            <sc-for list="{{ promosKpis }}" as="k" hint-placeholder-count="3">
+              <div class="glass-card" style="background:{{ k.bg }};backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.5);border-radius:18px;padding:20px;display:flex;align-items:center;gap:14px">
+                <span style="flex:none;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:#fff;color:{{ k.color }}"><i data-lucide="{{ k.icon }}" style="font-size:21px"></i></span>
+                <div><div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:24px;color:#0B5D52;line-height:1">{{ k.value }}</div><div style="font-size:12px;color:#596579;margin-top:3px;line-height:1.3">{{ k.label }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:24px;max-width:640px">
+            <sc-for list="{{ promotions }}" as="p" hint-placeholder-count="3">
+              <div class="glass-card" style="background:rgba(255,255,255,.55);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.6);border-left:4px solid #8A6D1A;border-radius:16px;padding:20px;display:flex;gap:16px;align-items:center">
+                <span style="flex:none;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:#FFF3C9;color:#8A6D1A"><i data-lucide="{{ p.icon }}" style="font-size:21px"></i></span>
+                <div style="flex:1">
+                  <div style="font-weight:700;font-size:15px;color:#0B5D52">{{ p.title }}</div>
+                  <div style="margin-top:6px;display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="padding:5px 12px;border-radius:100px;background:#E1F7F2;color:#0D7A6C;font-weight:800;font-size:12px">{{ p.code }}</span><span style="font-size:12px;color:#596579">Hasta {{ p.validUntil }}</span></div>
+                </div>
+                <button type="button" style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;border:1px solid rgba(13,122,108,.16);background:#fff;color:#0B5D52;cursor:pointer"><i data-lucide="pencil" style="font-size:15px"></i></button>
+              </div>
+            </sc-for>
+            <button type="button" style="align-self:flex-start;display:flex;align-items:center;gap:8px;padding:12px 20px;border-radius:100px;border:1.5px dashed rgba(13,122,108,.25);background:none;color:#0D7A6C;font-weight:700;font-size:13.5px;cursor:pointer"><i data-lucide="plus" style="font-size:16px"></i> Nueva promoción</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isAdminReportes }}" hint-placeholder-val="{{ false }}">
+          <h2 style="font-size:24px;font-weight:800">Reportes</h2>
+          <p style="margin-top:6px;font-size:14px;color:#596579">Un vistazo rápido a la operación del mes.</p>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px">
+            <sc-for list="{{ reportesKpis }}" as="k" hint-placeholder-count="3">
+              <div class="glass-card" style="background:{{ k.bg }};backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.5);border-radius:18px;padding:20px;display:flex;align-items:center;gap:14px">
+                <span style="flex:none;display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:13px;background:#fff;color:{{ k.color }}"><i data-lucide="{{ k.icon }}" style="font-size:22px"></i></span>
+                <div><div style="font-size:12.5px;color:#596579;font-weight:600">{{ k.label }}</div><div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:28px;color:#0B5D52;margin-top:2px">{{ k.value }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="margin-top:16px;padding:14px 16px;border-radius:13px;background:#FFF7DC;color:#8A6D1A;font-size:12.5px;line-height:1.5;display:flex;gap:9px;align-items:flex-start"><i data-lucide="info" style="font-size:16px;flex:none;margin-top:1px"></i> Estos reportes son datos de ejemplo. Un sistema real los calcularía a partir de tu base de datos, filtrados por los permisos de cada administrador.</div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    mobileOpen: false,
+    navScrolled: false,
+    authOpen: false,
+    authMode: 'login',
+    authRole: 'cliente',
+    loggedIn: false,
+    userRole: 'cliente',
+    portalOpen: false,
+    portalTab: 'citas',
+    adminOpen: false,
+    adminTab: 'inicio',
+    walletTopUp: '',
+    walletBalance: 150000,
+    walletHistory: [
+      { label: 'Recarga de saldo', date: '02 jul 2026', amount: 100000, positive: true },
+      { label: 'Pago · Limpieza de hogar · 6 horas', date: '28 jun 2026', amount: -138000, positive: false },
+      { label: 'Recarga de saldo', date: '15 jun 2026', amount: 188000, positive: true }
+    ],
+    authUser: { nombre: '', correo: '', telefono: '' },
+    af: { tipoPersona: 'natural', nombre: '', apellidos: '', tipoDocumento: '', numDocumento: '', pais: '', celular: '', telefono: '', correo: '', password: '', canalOrigen: '', profesion: '' },
+    profileSaved: false,
+    svcPriceOverrides: {},
+    experts: [
+      { id: 1, name: 'Dina Luz Guerrero', rating: 5, photo: 'https://randomuser.me/api/portraits/women/65.jpg', jobs: 214, specialty: 'Planchado y organización' },
+      { id: 2, name: 'Ana María Pacheco', rating: 5, photo: 'https://randomuser.me/api/portraits/women/44.jpg', jobs: 189, specialty: 'Limpieza profunda' },
+      { id: 3, name: 'Laura Ruiz', rating: 4, photo: 'https://randomuser.me/api/portraits/women/68.jpg', jobs: 156, specialty: 'Limpieza de oficinas' }
+    ],
+    faq: null,
+    svcTab: 'hogar',
+    booked: false,
+    bkOpen: false,
+    bkGateDismissed: false,
+    bkStep: 1,
+    bkModalidad: 'hogar',
+    bkMode: 'horas',
+    detailOpen: false,
+    detailService: null,
+    b: { service: 'Limpieza de hogar · 6 horas', fecha: '', hora: '', ciudad: '', direccion: '', area: '', banos: '', pisos: '', indicaciones: '', minuta: '', nombre: '', telefono: '', correo: '', obs: '', experta: '' }
+  };
+
+  PX = (id, w) => 'https://images.pexels.com/photos/' + id + '/pexels-photo-' + id + '.jpeg?auto=compress&cs=tinysrgb&w=' + w;
+
+  TASKS_DEMO = [
+    'Aseo general de oficinas/ instalaciones', 'Limpieza del mobiliario', 'Limpieza de los dispositivos electrónicos',
+    'Limpieza de baños', 'Recolección de basuras', 'Diligencias y compras externas - cercanas', 'Cafetería',
+    'Clasificación de residuos sólidos', 'Limpieza de zonas comunes', 'Ideal para espacios entre 60 - 110 m².',
+    'Misma partner asignada (según disponibilidad)'
+  ];
+
+  SERVICES = [
+    { name: 'Limpieza de hogar · 4 horas', category: 'hogar', icon: 'home', tag: 'Ideal para apartamentos y mantenimiento entre limpiezas profundas.', price: '$98.000', priceN: 98000, per: '/ servicio', dur: '4 h', featured: false,
+      features: ['Aseo de áreas sociales y habitaciones', 'Baños y cocina', 'Trapeado y aspirado de pisos', 'Sacudido de superficies'],
+      bg: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.22)', shadow: '0 20px 45px rgba(0,0,0,.35)', text: '#fff', muted: 'rgba(255,255,255,.68)', accent: '#fff', divider: 'rgba(255,255,255,.18)', check: '#1DBFA6',
+      btnBg: 'linear-gradient(135deg,#7EE0D0,#1DBFA6)', btnFg: '#0B5D52', btnBorder: 'none', cta: 'Reservar este servicio', tasks: this.TASKS_DEMO },
+    { name: 'Limpieza de hogar · 6 horas', category: 'hogar', icon: 'home', tag: 'Para casas de 2 a 3 habitaciones o limpiezas con organización incluida.', price: '$138.000', priceN: 138000, per: '/ servicio', dur: '6 h', featured: false,
+      features: ['Todo lo del servicio de 4 horas', 'Organización de espacios', 'Limpieza de electrodomésticos por fuera', 'Tendido de camas y orden general'],
+      bg: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.22)', shadow: '0 20px 45px rgba(0,0,0,.35)', text: '#fff', muted: 'rgba(255,255,255,.68)', accent: '#fff', divider: 'rgba(255,255,255,.18)', check: '#1DBFA6',
+      btnBg: 'linear-gradient(135deg,#7EE0D0,#1DBFA6)', btnFg: '#0B5D52', btnBorder: 'none', cta: 'Reservar este servicio', tasks: this.TASKS_DEMO },
+    { name: 'Limpieza de hogar · 8 horas', category: 'hogar', icon: 'home', tag: 'Jornada completa para limpieza profunda de casas y apartamentos grandes.', price: '$175.000', priceN: 175000, per: '/ servicio', dur: '8 h', featured: true,
+      features: ['Limpieza profunda de toda la vivienda', 'Ventanas internas y zócalos', 'Limpieza de interiores de nevera y horno', 'Lavado y organización opcional'],
+      bg: 'rgba(29,191,166,.16)', border: 'rgba(29,191,166,.55)', shadow: '0 28px 60px rgba(0,0,0,.4)', text: '#fff', muted: 'rgba(255,255,255,.78)', accent: '#fff', divider: 'rgba(255,255,255,.3)', check: '#fff',
+      btnBg: '#fff', btnFg: '#0B5D52', btnBorder: 'none', cta: 'Reservar este servicio', tasks: this.TASKS_DEMO },
+    { name: 'Limpieza de oficina · 4 horas', category: 'oficina', icon: 'building-2', tag: 'Mantenimiento de oficinas pequeñas, consultorios y locales comerciales.', price: '$120.000', priceN: 120000, per: '/ servicio', dur: '4 h', featured: false,
+      features: ['Puestos de trabajo y áreas comunes', 'Baños y cocineta', 'Vaciado de papeleras', 'Desinfección de superficies de contacto'],
+      bg: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.22)', shadow: '0 20px 45px rgba(0,0,0,.35)', text: '#fff', muted: 'rgba(255,255,255,.68)', accent: '#fff', divider: 'rgba(255,255,255,.18)', check: '#1DBFA6',
+      btnBg: 'linear-gradient(135deg,#7EE0D0,#1DBFA6)', btnFg: '#0B5D52', btnBorder: 'none', cta: 'Reservar este servicio', tasks: this.TASKS_DEMO },
+    { name: 'Limpieza de oficina · 8 horas', category: 'oficina', icon: 'building-2', tag: 'Jornada completa para oficinas medianas y espacios corporativos.', price: '$205.000', priceN: 205000, per: '/ servicio', dur: '8 h', featured: false,
+      features: ['Limpieza integral de todos los pisos', 'Salas de reunión y recepción', 'Vidrios internos y divisiones', 'Desinfección profunda'],
+      bg: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.22)', shadow: '0 20px 45px rgba(0,0,0,.35)', text: '#fff', muted: 'rgba(255,255,255,.68)', accent: '#fff', divider: 'rgba(255,255,255,.18)', check: '#1DBFA6',
+      btnBg: 'linear-gradient(135deg,#7EE0D0,#1DBFA6)', btnFg: '#0B5D52', btnBorder: 'none', cta: 'Reservar este servicio', tasks: this.TASKS_DEMO }
+  ];
+
+  BENEFITS = [
+    { icon: 'badge-check', title: 'Personal certificado', desc: 'Cada integrante de nuestro equipo pasa por un proceso de selección, verificación de antecedentes y capacitación continua en técnicas y protocolos de limpieza.' },
+    { icon: 'leaf', title: 'Productos ecológicos', desc: 'Usamos insumos biodegradables y libres de químicos agresivos, seguros para niños, mascotas y personas con alergias o sensibilidad respiratoria.' },
+    { icon: 'shield-check', title: 'Garantía total', desc: 'Si algo no quedó como esperabas, volvemos a tu espacio sin costo adicional dentro de las 24 horas siguientes al servicio.' },
+    { icon: 'umbrella', title: 'Todo asegurado', desc: 'Contamos con póliza de responsabilidad civil que cubre daños accidentales durante el servicio, para que estés completamente tranquilo.' },
+    { icon: 'calendar-clock', title: 'Disponibilidad', desc: 'Agenda tu servicio el día que necesites, incluyendo fines de semana, con horarios flexibles que se ajustan a tu rutina.' },
+    { icon: 'zap', title: 'Atención rápida', desc: 'Nuestro equipo de soporte responde tus mensajes y solicitudes en minutos, todos los días de la semana.' }
+  ];
+
+  STEPS = [
+    { num: '01', icon: 'mouse-pointer-click', title: 'Elige tu servicio', desc: 'Selecciona la modalidad (Hogar u Oficina) y el tipo de limpieza.' },
+    { num: '02', icon: 'map-pin', title: 'Indica tu dirección', desc: 'Cuéntanos la ciudad y la dirección exacta del servicio.' },
+    { num: '03', icon: 'calendar-plus', title: 'Agenda fecha y hora', desc: 'Elige el día y el horario que mejor te quede.' },
+    { num: '04', icon: 'user-check', title: 'Te asignamos un asistente', desc: 'Aurora asigna un profesional certificado y coordina contigo.' },
+    { num: '05', icon: 'check-check', title: 'Confirmamos tu reserva', desc: 'Revisa el resumen y recibe la confirmación al instante.' }
+  ];
+
+  FAQS = [
+    { q: '¿Debo proporcionar los productos de limpieza?', a: 'No. Nuestro equipo llega con todos los insumos y equipos profesionales, incluidos productos ecológicos certificados.' },
+    { q: '¿Cómo agendo un servicio?', a: 'Puedes reservar en línea haciendo clic en cualquier botón "Reservar" del sitio. Se abrirá un asistente donde eliges servicio, dirección, fecha y hora, y recibirás confirmación inmediata.' },
+    { q: '¿El personal está asegurado?', a: 'Sí. Todo nuestro personal está certificado, verificado y cubierto por seguro de responsabilidad civil.' },
+    { q: '¿Qué pasa si no quedo satisfecho?', a: 'Ofrecemos garantía de satisfacción: si algo no cumple tus expectativas, regresamos a corregirlo sin costo adicional.' },
+    { q: '¿Atienden empresas e industrias?', a: 'Sí. Contamos con protocolos específicos para limpieza comercial e industrial, con reportes de calidad y gerente de cuenta.' }
+  ];
+
+  CONTACTS = [
+    { icon: 'phone', label: 'Teléfono', value: '+57 604 444 0000', bg: '#E1F7F2', fg: '#0D7A6C' },
+    { icon: 'mail', label: 'Correo', value: 'hola@asseo.co', bg: '#E1F7F2', fg: '#0D7A6C' },
+    { icon: 'message-circle', label: 'WhatsApp', value: '+57 300 000 0000', bg: '#e9f7ec', fg: '#25a34a' },
+    { icon: 'clock', label: 'Horario', value: 'Lun–Sáb · 7:00 AM – 7:00 PM', bg: '#E1F7F2', fg: '#0D7A6C' }
+  ];
+
+  SLOTS = ['9:00', '10:00', '11:00', '1:00', '3:00', '5:00'];
+
+  MY_APPOINTMENTS = [
+    { id: 1, service: 'Limpieza de hogar · 6 horas', date: '18 jul 2026', time: '9:00 AM', address: 'Cra. 43A #7-50, El Poblado', status: 'Confirmada', statusColor: '#0D7A6C', statusBg: '#E1F7F2', when: 'future', asistente: 'Ana María Gómez', pid: 4239091 },
+    { id: 2, service: 'Limpieza de hogar · 4 horas', date: '25 jul 2026', time: '3:00 PM', address: 'Cl. 10 #34-12, Envigado', status: 'Pendiente de asistente', statusColor: '#8A6D1A', statusBg: '#FFF7DC', when: 'future', asistente: null, pid: 6474471 },
+    { id: 3, service: 'Limpieza de hogar · 6 horas', date: '30 jun 2026', time: '10:00 AM', address: 'Cra. 43A #7-50, El Poblado', status: 'Completada', statusColor: '#2E7D32', statusBg: '#e9f7ec', when: 'past' },
+    { id: 4, service: 'Limpieza de oficina · 4 horas', date: '12 jun 2026', time: '1:00 PM', address: 'Cl. 33 #45-20, Medellín', status: 'Completada', statusColor: '#2E7D32', statusBg: '#e9f7ec', when: 'past' }
+  ];
+
+  PROMOTIONS = [
+    { icon: 'percent', title: '20% off en tu primera limpieza profunda', desc: 'Válido para clientes nuevos en el servicio de 8 horas.', code: 'BIENVENIDA20', validUntil: '31 jul 2026' },
+    { icon: 'gift', title: '2x1 en desinfección de tapetes', desc: 'Agenda una limpieza de 6 horas y llévate la desinfección sin costo.', code: 'TAPETES2X1', validUntil: '15 ago 2026' },
+    { icon: 'sparkles', title: 'Plan recurrente con 10% de descuento', desc: 'Agenda un plan mensual y obtén descuento permanente en cada visita.', code: 'RECURRENTE10', validUntil: 'Sin fecha límite' }
+  ];
+
+  NOTIFICATIONS = [
+    { icon: 'calendar-check', title: 'Cita confirmada', desc: 'Tu servicio del 18 de julio quedó confirmado.', time: 'Hace 2 horas', unread: true },
+    { icon: 'gift', title: 'Nueva promoción disponible', desc: 'Descuento del 20% en tu primera limpieza profunda.', time: 'Ayer', unread: true },
+    { icon: 'wallet', title: 'Saldo recargado', desc: 'Agregaste $100.000 a tu cuenta Aurora.', time: 'Hace 3 días', unread: false }
+  ];
+
+  ALL_APPOINTMENTS = [
+    { id: 101, cliente: 'Valentina Restrepo', service: 'Limpieza de hogar · 6 horas', date: '18 jul 2026', time: '9:00 AM', asistente: 'María Gómez', status: 'Confirmada', statusColor: '#0D7A6C', statusBg: '#E1F7F2' },
+    { id: 102, cliente: 'Andrés Gómez', service: 'Limpieza de oficina · 8 horas', date: '19 jul 2026', time: '8:00 AM', asistente: 'Sin asignar', status: 'Pendiente de asistente', statusColor: '#8A6D1A', statusBg: '#FFF7DC' },
+    { id: 103, cliente: 'Camila Torres', service: 'Limpieza de hogar · 4 horas', date: '20 jul 2026', time: '2:00 PM', asistente: 'Laura Ruiz', status: 'Confirmada', statusColor: '#0D7A6C', statusBg: '#E1F7F2' },
+    { id: 104, cliente: 'Julián Pérez', service: 'Limpieza de hogar · 8 horas', date: '30 jun 2026', time: '10:00 AM', asistente: 'María Gómez', status: 'Completada', statusColor: '#2E7D32', statusBg: '#e9f7ec' }
+  ];
+
+  MOCK_CLIENTS = [
+    { nombre: 'Valentina Restrepo', correo: 'valentina.r@email.com', telefono: '+57 300 111 2233', citas: 5, saldo: '$150.000' },
+    { nombre: 'Andrés Gómez', correo: 'andres.gomez@email.com', telefono: '+57 301 222 3344', citas: 2, saldo: '$0' },
+    { nombre: 'Camila Torres', correo: 'camila.torres@email.com', telefono: '+57 302 333 4455', citas: 8, saldo: '$60.000' }
+  ];
+
+  toggleMenu = () => this.setState(s => ({ mobileOpen: !s.mobileOpen }));
+  openAuth = (mode) => () => this.setState({ authOpen: true, authMode: mode, mobileOpen: false });
+  closeAuth = () => this.setState({ authOpen: false });
+  setAuthMode = (mode) => () => this.setState({ authMode: mode });
+  authField = (k) => (e) => { const v = e.target.value; this.setState(s => ({ af: { ...s.af, [k]: v } })); };
+  setAfValue = (k, v) => () => this.setState(s => ({ af: { ...s.af, [k]: v } }));
+  setAuthRole = (role) => () => this.setState({ authRole: role });
+  openAuthFromBooking = (mode) => () => this.setState({ authOpen: true, authMode: mode });
+  submitLogin = () => this.setState(s => ({
+    authOpen: false,
+    loggedIn: true,
+    bkGateDismissed: true,
+    userRole: s.authRole,
+    authUser: { nombre: s.authUser.nombre || (s.authRole === 'empleado' ? 'Equipo Aurora' : 'Cliente Aurora'), correo: s.af.correo, telefono: s.authUser.telefono },
+    b: { ...s.b, correo: s.af.correo || s.b.correo }
+  }));
+  submitRegister = () => this.setState(s => {
+    const nombreCompleto = [s.af.nombre, s.af.apellidos].filter(Boolean).join(' ');
+    return {
+      authOpen: false,
+      loggedIn: true,
+      bkGateDismissed: true,
+      userRole: s.authRole,
+      authUser: { nombre: nombreCompleto || (s.authRole === 'empleado' ? 'Equipo Aurora' : 'Cliente Aurora'), correo: s.af.correo, telefono: s.af.celular },
+      b: { ...s.b, nombre: nombreCompleto || s.b.nombre, correo: s.af.correo || s.b.correo, telefono: s.af.celular || s.b.telefono }
+    };
+  });
+  logout = () => this.setState({ loggedIn: false, portalOpen: false, adminOpen: false, authUser: { nombre: '', correo: '', telefono: '' } });
+  openPortal = (tab) => () => this.setState({ portalOpen: true, portalTab: tab || 'inicio' });
+  closePortal = () => this.setState({ portalOpen: false });
+  setPortalTab = (tab) => () => this.setState({ portalTab: tab });
+  openAdmin = (tab) => () => this.setState({ adminOpen: true, adminTab: tab || 'inicio' });
+  closeAdmin = () => this.setState({ adminOpen: false });
+  setAdminTab = (tab) => () => this.setState({ adminTab: tab });
+  topUpWallet = () => this.setState(s => {
+    const amount = parseInt(String(s.walletTopUp).replace(/\D/g, ''), 10);
+    if (!amount) return {};
+    return {
+      walletBalance: s.walletBalance + amount,
+      walletTopUp: '',
+      walletHistory: [{ label: 'Recarga de saldo', date: 'Hoy', amount: amount, positive: true }, ...s.walletHistory]
+    };
+  });
+  setWalletTopUp = (e) => this.setState({ walletTopUp: e.target.value });
+
+  openMyPanel = () => this.state.userRole === 'empleado' ? this.openAdmin('inicio')() : this.openPortal('inicio')();
+  openBookingFromPortal = () => this.setState({ portalOpen: false, bkOpen: true, bkStep: 1, bkGateDismissed: true });
+  setTabCitas = () => this.setState({ portalTab: 'citas' });
+  setTabInicio = () => this.setState({ portalTab: 'inicio' });
+  setTabAyuda = () => this.setState({ portalTab: 'ayuda' });
+  setTabHistorial = () => this.setState({ portalTab: 'historial' });
+  setTabSaldo = () => this.setState({ portalTab: 'saldo' });
+  setTabCatalogo = () => this.setState({ portalTab: 'catalogo' });
+  setTabPromos = () => this.setState({ portalTab: 'promos' });
+  setTabNotif = () => this.setState({ portalTab: 'notif' });
+  setTabPerfil = () => this.setState(s => ({ portalTab: 'perfil', af: { ...s.af, nombre: s.authUser.nombre, correo: s.authUser.correo, celular: s.authUser.telefono } }));
+  saveProfile = () => this.setState(s => ({ authUser: { ...s.authUser, nombre: s.af.nombre, correo: s.af.correo, telefono: s.af.celular }, profileSaved: true }));
+
+  setAdminInicio = () => this.setState({ adminTab: 'inicio' });
+  setAdminAgenda = () => this.setState({ adminTab: 'agenda' });
+  setAdminClientes = () => this.setState({ adminTab: 'clientes' });
+  setAdminServicios = () => this.setState({ adminTab: 'servicios' });
+  setAdminExpertas = () => this.setState({ adminTab: 'expertas' });
+  setAdminPromos = () => this.setState({ adminTab: 'promos' });
+  setAdminReportes = () => this.setState({ adminTab: 'reportes' });
+  setSvcPrice = (name) => (e) => { const v = e.target.value; this.setState(s => ({ svcPriceOverrides: { ...s.svcPriceOverrides, [name]: v } })); };
+  selectExperta = (name) => () => this.setState(s => ({ b: { ...s.b, experta: s.b.experta === name ? '' : name } }));
+  updateExpert = (idx, field) => (e) => { const v = e.target.value; this.setState(s => { const experts = s.experts.map((x, i) => i === idx ? { ...x, [field]: field === 'rating' ? parseInt(v, 10) || 0 : v } : x); return { experts }; }); };
+  field = (k) => (e) => { const v = e.target.value; this.setState(s => ({ b: { ...s.b, [k]: v }, booked: false })); };
+  pickTime = (t) => () => this.setState(s => ({ b: { ...s.b, hora: t } }));
+  setFaq = (i) => () => this.setState(s => ({ faq: s.faq === i ? null : i }));
+  setSvcTab = (t) => () => this.setState({ svcTab: t });
+  submitBooking = () => this.setState({ booked: true });
+  openBooking = (name) => () => {
+    const svc = name ? this.SERVICES.find(x => x.name === name) : null;
+    this.setState(s => ({
+      bkOpen: true,
+      bkStep: 1,
+      booked: false,
+      bkGateDismissed: false,
+      bkModalidad: svc ? svc.category : s.bkModalidad,
+      b: svc ? { ...s.b, service: name } : s.b
+    }));
+  };
+  continueAsGuest = () => this.setState({ bkGateDismissed: true });
+  closeBooking = () => this.setState({ bkOpen: false, bkStep: 1, booked: false });
+  stopProp = (e) => { if (e && e.stopPropagation) e.stopPropagation(); };
+  openDetail = (name) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ detailOpen: true, detailService: name }); };
+  closeDetail = () => this.setState({ detailOpen: false });
+  detailReserve = () => {
+    const name = this.state.detailService;
+    this.setState({ detailOpen: false });
+    this.openBooking(name)();
+  };
+  setBkModalidad = (m) => () => this.setState({ bkModalidad: m });
+  setBkMode = (m) => () => this.setState({ bkMode: m });
+  toggleBkMode = () => this.setState(s => ({ bkMode: s.bkMode === 'recurrente' ? 'horas' : 'recurrente' }));
+  setBkStep = (n) => () => this.setState({ bkStep: n });
+  selectService = (name) => () => this.setState(s => ({ b: { ...s.b, service: name } }));
+  prevBk = () => this.setState(s => ({ bkStep: Math.max(1, s.bkStep - 1) }));
+  nextBk = () => {
+    const st = this.state;
+    if (st.bkStep === 2 && !(st.b.nombre && st.b.telefono)) return;
+    if (st.bkStep === 3 && !(st.b.ciudad && st.b.direccion)) return;
+    if (st.bkStep === 4 && !(st.b.fecha && st.b.hora)) return;
+    if (st.bkStep === 5) { this.setState({ booked: true }); return; }
+    this.setState(s => ({ bkStep: s.bkStep + 1 }));
+  };
+
+  lastScrollY = 0;
+
+  componentDidMount() {
+    this.icons();
+    window.addEventListener('scroll', this.handleScroll, { passive: true });
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+  componentDidUpdate() { this.icons(); }
+  icons() { if (window.lucide) { try { window.lucide.createIcons(); } catch (e) {} } }
+
+  handleScroll = () => {
+    const y = window.scrollY;
+    const scrolled = y > 20;
+    if (scrolled !== this.state.navScrolled) this.setState({ navScrolled: scrolled });
+    this.lastScrollY = y;
+  };
+
+  fmtDate(d) {
+    if (!d) return 'Por definir';
+    const parts = d.split('-'); if (parts.length !== 3) return d;
+    const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    return parts[2] + ' ' + meses[parseInt(parts[1], 10) - 1] + ' ' + parts[0];
+  }
+
+  fmtCOP(n) {
+    const sign = n < 0 ? '-' : '+';
+    const digits = Math.abs(n).toString().split('').reverse().join('').match(/\d{1,3}/g).join('.').split('').reverse().join('');
+    return sign + '$' + digits;
+  }
+
+  fmtMoney(n) {
+    return '$' + Math.round(n).toString().split('').reverse().join('').match(/\d{1,3}/g).join('.').split('').reverse().join('');
+  }
+
+  parseCOP(str) {
+    const n = parseInt(String(str).replace(/\D/g, ''), 10);
+    return isNaN(n) ? 0 : n;
+  }
+
+  initialsOf(name) {
+    return String(name).split(' ').filter(Boolean).map(w => w[0]).slice(0, 2).join('').toUpperCase();
+  }
+
+  renderVals() {
+    const b = this.state.b;
+    const svc = this.SERVICES.find(s => s.name === b.service) || this.SERVICES[0];
+    const detailSvc = this.SERVICES.find(s => s.name === this.state.detailService) || this.SERVICES[0];
+    const nextAppt = this.MY_APPOINTMENTS.find(a => a.when === 'future') || null;
+    const bkReady = this.state.bkStep === 2 ? !!(b.nombre && b.telefono)
+      : this.state.bkStep === 3 ? !!(b.ciudad && b.direccion)
+      : this.state.bkStep === 4 ? !!(b.fecha && b.hora)
+      : true;
+    const bkStepsBase = [
+      { n: 1, label: 'Servicio' },
+      { n: 2, label: 'Datos' },
+      { n: 3, label: 'Dirección' },
+      { n: 4, label: 'Fecha y hora' },
+      { n: 5, label: 'Resumen' }
+    ];
+
+    return {
+      mobileOpen: this.state.mobileOpen,
+      toggleMenu: this.toggleMenu,
+      authOpen: this.state.authOpen,
+      closeAuth: this.closeAuth,
+      openAuthLogin: this.openAuth('login'),
+      setAuthLogin: this.setAuthMode('login'),
+      setAuthRegister: this.setAuthMode('register'),
+      isAuthLogin: this.state.authMode === 'login',
+      isAuthRegister: this.state.authMode === 'register',
+      authTitle: this.state.authMode === 'login' ? 'Inicia sesión' : 'Crea tu cuenta',
+      authSubtitle: this.state.authMode === 'login' ? 'Accede para ver el estado de tus reservas.' : 'Regístrate para agendar más rápido la próxima vez.',
+      authTabLoginBg: this.state.authMode === 'login' ? '#0B5D52' : 'transparent',
+      authTabLoginFg: this.state.authMode === 'login' ? '#fff' : '#596579',
+      authTabRegisterBg: this.state.authMode === 'register' ? '#0B5D52' : 'transparent',
+      authTabRegisterFg: this.state.authMode === 'register' ? '#fff' : '#596579',
+      setPersonaNatural: this.setAfValue('tipoPersona', 'natural'),
+      setPersonaJuridica: this.setAfValue('tipoPersona', 'juridico'),
+      personaNaturalBorder: this.state.af.tipoPersona === 'natural' ? '#0B5D52' : 'rgba(13,122,108,.16)',
+      personaNaturalBg: this.state.af.tipoPersona === 'natural' ? '#E1F7F2' : '#fff',
+      personaNaturalIcon: this.state.af.tipoPersona === 'natural' ? 'circle-dot' : 'circle',
+      personaJuridicaBorder: this.state.af.tipoPersona === 'juridico' ? '#0B5D52' : 'rgba(13,122,108,.16)',
+      personaJuridicaBg: this.state.af.tipoPersona === 'juridico' ? '#E1F7F2' : '#fff',
+      personaJuridicaIcon: this.state.af.tipoPersona === 'juridico' ? 'circle-dot' : 'circle',
+      loggedIn: this.state.loggedIn,
+      loggedOut: !this.state.loggedIn,
+      authUser: this.state.authUser,
+      af: this.state.af,
+      h2: { nombre: this.authField('nombre'), apellidos: this.authField('apellidos'), tipoDocumento: this.authField('tipoDocumento'), numDocumento: this.authField('numDocumento'), pais: this.authField('pais'), celular: this.authField('celular'), correo: this.authField('correo'), telefono: this.authField('telefono'), password: this.authField('password'), canalOrigen: this.authField('canalOrigen'), profesion: this.authField('profesion') },
+      submitLogin: this.submitLogin,
+      submitRegister: this.submitRegister,
+      logout: this.logout,
+      openAuthLoginFromBooking: this.openAuthFromBooking('login'),
+      openAuthRegisterFromBooking: this.openAuthFromBooking('register'),
+      topbarMaxHeight: this.state.navScrolled ? '0px' : '60px',
+      topbarOpacity: this.state.navScrolled ? 0 : 1,
+      navShadow: this.state.navScrolled ? '0 10px 28px rgba(0,0,0,.22)' : '0 6px 20px rgba(0,0,0,.14)',
+      navPosition: this.state.navScrolled ? 'fixed' : 'relative',
+      navSpacerHeight: this.state.navScrolled ? '102px' : 'auto',
+      navServices: this.SERVICES.map(s => ({ ...s, openBooking: this.openBooking(s.name) })),
+      activeServices: this.SERVICES.filter(s => s.category === this.state.svcTab).map(s => ({ ...s, openBooking: this.openBooking(s.name), openDetail: this.openDetail(s.name) })),
+      setTabHogar: this.setSvcTab('hogar'),
+      setTabOficina: this.setSvcTab('oficina'),
+      tabHogarBg: this.state.svcTab === 'hogar' ? '#0B5D52' : '#fff',
+      tabHogarFg: this.state.svcTab === 'hogar' ? '#fff' : '#0B5D52',
+      tabHogarBorder: this.state.svcTab === 'hogar' ? '#0B5D52' : 'rgba(13,122,108,.2)',
+      tabOficinaBg: this.state.svcTab === 'oficina' ? '#0B5D52' : '#fff',
+      tabOficinaFg: this.state.svcTab === 'oficina' ? '#fff' : '#0B5D52',
+      tabOficinaBorder: this.state.svcTab === 'oficina' ? '#0B5D52' : 'rgba(13,122,108,.2)',
+      hlTabHogarBg: this.state.svcTab === 'hogar' ? '#1DBFA6' : 'rgba(255,255,255,.12)',
+      hlTabHogarFg: this.state.svcTab === 'hogar' ? '#0B5D52' : '#fff',
+      hlTabHogarBorder: this.state.svcTab === 'hogar' ? 'transparent' : 'rgba(255,255,255,.3)',
+      hlTabOficinaBg: this.state.svcTab === 'oficina' ? '#1DBFA6' : 'rgba(255,255,255,.12)',
+      hlTabOficinaFg: this.state.svcTab === 'oficina' ? '#0B5D52' : '#fff',
+      hlTabOficinaBorder: this.state.svcTab === 'oficina' ? 'transparent' : 'rgba(255,255,255,.3)',
+      hlGridCols: this.state.svcTab === 'oficina' ? 'repeat(2,1fr)' : 'repeat(3,1fr)',
+      hlGridMaxWidth: this.state.svcTab === 'oficina' ? '620px' : 'none',
+      openBookingGeneric: this.openBooking(),
+      bkOpen: this.state.bkOpen,
+      closeBooking: this.closeBooking,
+      stopProp: this.stopProp,
+      isBk1: this.state.bkStep === 1,
+      isBk2: this.state.bkStep === 2,
+      isBk3: this.state.bkStep === 3,
+      isBk4: this.state.bkStep === 4,
+      isBk5: this.state.bkStep === 5,
+      bkNotStep5: this.state.bkStep !== 5,
+      bkShowNav: !this.state.booked,
+      showBkGate: !this.state.loggedIn && !this.state.bkGateDismissed,
+      bkGatePassed: this.state.loggedIn || this.state.bkGateDismissed,
+      continueAsGuest: this.continueAsGuest,
+
+      setAuthRoleCliente: this.setAuthRole('cliente'),
+      setAuthRoleEmpleado: this.setAuthRole('empleado'),
+      authRoleClienteBorder: this.state.authRole === 'cliente' ? '#0B5D52' : 'rgba(13,122,108,.16)',
+      authRoleClienteBg: this.state.authRole === 'cliente' ? '#E1F7F2' : '#fff',
+      authRoleEmpleadoBorder: this.state.authRole === 'empleado' ? '#0B5D52' : 'rgba(13,122,108,.16)',
+      authRoleEmpleadoBg: this.state.authRole === 'empleado' ? '#E1F7F2' : '#fff',
+
+      openMyPanel: this.openMyPanel,
+      myPanelIcon: this.state.userRole === 'empleado' ? 'badge-check' : 'user',
+      myPanelLabel: this.state.userRole === 'empleado' ? 'Panel' : 'Mi cuenta',
+
+      portalOpen: this.state.portalOpen,
+      closePortal: this.closePortal,
+      openBookingFromPortal: this.openBookingFromPortal,
+      setTabInicio: this.setTabInicio,
+      setTabAyuda: this.setTabAyuda,
+      setTabCitas: this.setTabCitas,
+      setTabHistorial: this.setTabHistorial,
+      setTabSaldo: this.setTabSaldo,
+      setTabCatalogo: this.setTabCatalogo,
+      setTabPromos: this.setTabPromos,
+      setTabNotif: this.setTabNotif,
+      setTabPerfil: this.setTabPerfil,
+      saveProfile: this.saveProfile,
+      profileSaved: this.state.profileSaved,
+      isTabInicio: this.state.portalTab === 'inicio',
+      isTabAyuda: this.state.portalTab === 'ayuda',
+      isTabCitas: this.state.portalTab === 'citas',
+      isTabHistorial: this.state.portalTab === 'historial',
+      isTabSaldo: this.state.portalTab === 'saldo',
+      isTabCatalogo: this.state.portalTab === 'catalogo',
+      isTabPromos: this.state.portalTab === 'promos',
+      isTabNotif: this.state.portalTab === 'notif',
+      isTabPerfil: this.state.portalTab === 'perfil',
+      tabInicioBg: this.state.portalTab === 'inicio' ? '#0B5D52' : 'none',
+      tabInicioFg: this.state.portalTab === 'inicio' ? '#fff' : '#0B5D52',
+      tabAyudaBg: this.state.portalTab === 'ayuda' ? '#0B5D52' : 'none',
+      tabAyudaFg: this.state.portalTab === 'ayuda' ? '#fff' : '#0B5D52',
+      tabCitasBg: this.state.portalTab === 'citas' ? '#0B5D52' : 'none',
+      tabCitasFg: this.state.portalTab === 'citas' ? '#fff' : '#0B5D52',
+      tabHistorialBg: this.state.portalTab === 'historial' ? '#0B5D52' : 'none',
+      tabHistorialFg: this.state.portalTab === 'historial' ? '#fff' : '#0B5D52',
+      tabSaldoBg: this.state.portalTab === 'saldo' ? '#0B5D52' : 'none',
+      tabSaldoFg: this.state.portalTab === 'saldo' ? '#fff' : '#0B5D52',
+      tabCatalogoBg: this.state.portalTab === 'catalogo' ? '#0B5D52' : 'none',
+      tabCatalogoFg: this.state.portalTab === 'catalogo' ? '#fff' : '#0B5D52',
+      tabPromosBg: this.state.portalTab === 'promos' ? '#0B5D52' : 'none',
+      tabPromosFg: this.state.portalTab === 'promos' ? '#fff' : '#0B5D52',
+      tabNotifBg: this.state.portalTab === 'notif' ? '#0B5D52' : 'none',
+      tabNotifFg: this.state.portalTab === 'notif' ? '#fff' : '#0B5D52',
+      tabPerfilBg: this.state.portalTab === 'perfil' ? '#0B5D52' : 'none',
+      tabPerfilFg: this.state.portalTab === 'perfil' ? '#fff' : '#0B5D52',
+      upcomingAppointments: this.MY_APPOINTMENTS.filter(a => a.when === 'future'),
+      clientName: this.state.authUser.nombre || 'Cliente',
+      nextApptDate: nextAppt ? nextAppt.date : 'Sin citas próximas',
+      nextApptTime: nextAppt ? nextAppt.time : '',
+      completedCount: this.MY_APPOINTMENTS.filter(a => a.when === 'past').length,
+      notifCount: this.NOTIFICATIONS.length,
+      upcomingPreview: this.MY_APPOINTMENTS.filter(a => a.when === 'future').slice(0, 2).map(a => ({
+        ...a,
+        photoUrl: this.PX(a.pid, 500),
+        noteIcon: a.status === 'Confirmada' ? 'info' : 'clock',
+        noteBg: a.status === 'Confirmada' ? '#E1F7F2' : '#FFF7DC',
+        noteColor: a.status === 'Confirmada' ? '#0D7A6C' : '#8A6D1A',
+        noteTitle: a.status === 'Confirmada' ? ('Te visitará: ' + a.asistente) : 'Pendiente de asistente',
+        noteDesc: a.status === 'Confirmada' ? 'Especialista en limpieza del hogar' : 'Asignaremos un experto para ti'
+      })),
+      pastAppointments: this.MY_APPOINTMENTS.filter(a => a.when === 'past'),
+      walletBalanceFmt: '$' + this.state.walletBalance.toString().split('').reverse().join('').match(/\d{1,3}/g).join('.').split('').reverse().join(''),
+      walletHistoryFmt: this.state.walletHistory.map(w => ({ ...w, amountFmt: this.fmtCOP(w.amount), color: w.positive ? '#2E7D32' : '#c0392b' })),
+      topUpWallet: this.topUpWallet,
+      setWalletTopUp: this.setWalletTopUp,
+      walletTopUp: this.state.walletTopUp,
+      catalogServices: this.SERVICES.map(s => ({ name: s.name, tag: s.tag, dur: s.dur, price: this.state.svcPriceOverrides[s.name] || s.price })),
+      promotions: this.PROMOTIONS,
+      notifications: this.NOTIFICATIONS.map(n => ({ ...n, bg: n.unread ? '#F3FBFA' : 'transparent' })),
+
+      adminOpen: this.state.adminOpen,
+      closeAdmin: this.closeAdmin,
+      setAdminInicio: this.setAdminInicio,
+      setAdminAgenda: this.setAdminAgenda,
+      setAdminClientes: this.setAdminClientes,
+      setAdminServicios: this.setAdminServicios,
+      setAdminPromos: this.setAdminPromos,
+      setAdminReportes: this.setAdminReportes,
+      isAdminInicio: this.state.adminTab === 'inicio',
+      isAdminAgenda: this.state.adminTab === 'agenda',
+      isAdminClientes: this.state.adminTab === 'clientes',
+      isAdminServicios: this.state.adminTab === 'servicios',
+      isAdminExpertas: this.state.adminTab === 'expertas',
+      isAdminPromos: this.state.adminTab === 'promos',
+      isAdminReportes: this.state.adminTab === 'reportes',
+      adminInicioBg: this.state.adminTab === 'inicio' ? '#0B5D52' : 'none',
+      adminInicioFg: this.state.adminTab === 'inicio' ? '#fff' : '#0B5D52',
+      adminAgendaBg: this.state.adminTab === 'agenda' ? '#0B5D52' : 'none',
+      adminAgendaFg: this.state.adminTab === 'agenda' ? '#fff' : '#0B5D52',
+      adminClientesBg: this.state.adminTab === 'clientes' ? '#0B5D52' : 'none',
+      adminClientesFg: this.state.adminTab === 'clientes' ? '#fff' : '#0B5D52',
+      adminServiciosBg: this.state.adminTab === 'servicios' ? '#0B5D52' : 'none',
+      adminServiciosFg: this.state.adminTab === 'servicios' ? '#fff' : '#0B5D52',
+      adminExpertasBg: this.state.adminTab === 'expertas' ? '#0B5D52' : 'none',
+      adminExpertasFg: this.state.adminTab === 'expertas' ? '#fff' : '#0B5D52',
+      adminPromosBg: this.state.adminTab === 'promos' ? '#0B5D52' : 'none',
+      adminPromosFg: this.state.adminTab === 'promos' ? '#fff' : '#0B5D52',
+      adminReportesBg: this.state.adminTab === 'reportes' ? '#0B5D52' : 'none',
+      adminReportesFg: this.state.adminTab === 'reportes' ? '#fff' : '#0B5D52',
+      allAppointments: this.ALL_APPOINTMENTS.map(a => ({ ...a, initials: a.cliente.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase() })),
+      agendaKpis: [
+        { label: 'Citas totales', value: this.ALL_APPOINTMENTS.length, icon: 'calendar-days', color: '#0B5D52', bg: 'rgba(29,191,166,.18)' },
+        { label: 'Confirmadas', value: this.ALL_APPOINTMENTS.filter(a => a.status === 'Confirmada').length, icon: 'badge-check', color: '#0D7A6C', bg: 'rgba(29,191,166,.18)' },
+        { label: 'Pendientes de asistente', value: this.ALL_APPOINTMENTS.filter(a => a.status === 'Pendiente de asistente').length, icon: 'user-plus', color: '#8A6D1A', bg: 'rgba(138,109,26,.15)' },
+        { label: 'Completadas', value: this.ALL_APPOINTMENTS.filter(a => a.status === 'Completada').length, icon: 'check-circle-2', color: '#2E7D32', bg: 'rgba(46,125,50,.15)' }
+      ],
+      mockClients: this.MOCK_CLIENTS.map(c => ({ ...c, initials: this.initialsOf(c.nombre), accentColor: this.parseCOP(c.saldo) > 0 ? '#2E7D32' : '#9AA6B8' })),
+      clientesKpis: [
+        { label: 'Clientes registrados', value: this.MOCK_CLIENTS.length, icon: 'users', color: '#0B5D52', bg: 'rgba(29,191,166,.18)' },
+        { label: 'Citas acumuladas', value: this.MOCK_CLIENTS.reduce((sum, c) => sum + c.citas, 0), icon: 'calendar-days', color: '#0D7A6C', bg: 'rgba(29,191,166,.18)' },
+        { label: 'Saldo total en cuentas', value: this.fmtMoney(this.MOCK_CLIENTS.reduce((sum, c) => sum + this.parseCOP(c.saldo), 0)), icon: 'wallet', color: '#2E7D32', bg: 'rgba(46,125,50,.15)' }
+      ],
+      adminServices: this.SERVICES.map(s => ({ name: s.name, dur: s.dur, icon: s.icon, price: this.state.svcPriceOverrides[s.name] || s.price, onChange: this.setSvcPrice(s.name), accentBg: s.category === 'oficina' ? '#E1F7F2' : '#e9f7ec', accentColor: s.category === 'oficina' ? '#0D7A6C' : '#2E7D32' })),
+      serviciosKpis: [
+        { label: 'Servicios activos', value: this.SERVICES.length, icon: 'list', color: '#0B5D52', bg: 'rgba(29,191,166,.18)' },
+        { label: 'Para el hogar', value: this.SERVICES.filter(s => s.category === 'hogar').length, icon: 'home', color: '#2E7D32', bg: 'rgba(46,125,50,.15)' },
+        { label: 'Para oficinas', value: this.SERVICES.filter(s => s.category === 'oficina').length, icon: 'building-2', color: '#0D7A6C', bg: 'rgba(29,191,166,.18)' }
+      ],
+      expertOptions: this.state.experts.map(e => {
+        const chosen = b.experta === e.name;
+        return {
+          ...e,
+          select: this.selectExperta(e.name),
+          cardBorder: chosen ? '#0B5D52' : 'rgba(13,122,108,.1)',
+          cardBg: chosen ? '#E1F7F2' : '#fff',
+          btnBg: chosen ? '#0B5D52' : '#1DBFA6',
+          btnFg: chosen ? '#fff' : '#0B5D52',
+          btnLabel: chosen ? 'Elegida' : 'Elegir experta'
+        };
+      }),
+      adminExperts: this.state.experts.map((e, i) => ({ ...e, onNameChange: this.updateExpert(i, 'name'), onRatingChange: this.updateExpert(i, 'rating'), onSpecialtyChange: this.updateExpert(i, 'specialty'), accentColor: e.rating >= 5 ? '#2E7D32' : e.rating === 4 ? '#0D7A6C' : '#9AA6B8' })),
+      expertasKpis: [
+        { label: 'Expertas activas', value: this.state.experts.length, icon: 'user-round', color: '#0B5D52', bg: 'rgba(29,191,166,.18)' },
+        { label: 'Calificación promedio', value: (this.state.experts.reduce((sum, e) => sum + e.rating, 0) / this.state.experts.length).toFixed(1), icon: 'star', color: '#8A6D1A', bg: 'rgba(138,109,26,.15)' },
+        { label: 'Servicios completados', value: this.state.experts.reduce((sum, e) => sum + e.jobs, 0), icon: 'check-circle-2', color: '#2E7D32', bg: 'rgba(46,125,50,.15)' }
+      ],
+      promosKpis: [
+        { label: 'Promociones activas', value: this.PROMOTIONS.length, icon: 'gift', color: '#8A6D1A', bg: 'rgba(138,109,26,.15)' },
+        { label: 'Con código de descuento', value: this.PROMOTIONS.filter(p => p.code).length, icon: 'tag', color: '#0D7A6C', bg: 'rgba(29,191,166,.18)' },
+        { label: 'Sin fecha límite', value: this.PROMOTIONS.filter(p => p.validUntil === 'Sin fecha límite').length, icon: 'infinity', color: '#2E7D32', bg: 'rgba(46,125,50,.15)' }
+      ],
+      reportesKpis: [
+        { label: 'Servicios este mes', value: '86', icon: 'calendar-check', color: '#0B5D52', bg: 'rgba(29,191,166,.18)' },
+        { label: 'Clientes activos', value: '142', icon: 'users', color: '#0D7A6C', bg: 'rgba(29,191,166,.18)' },
+        { label: 'Satisfacción', value: '98%', icon: 'thumbs-up', color: '#2E7D32', bg: 'rgba(46,125,50,.15)' }
+      ],
+      bkBackVisibility: this.state.bkStep > 1 ? 'visible' : 'hidden',
+      prevBk: this.prevBk,
+      nextBk: this.nextBk,
+      bkNextLabel: this.state.bkStep === 5 ? 'Confirmar reserva' : 'Continuar',
+      bkNextOpacity: bkReady ? 1 : .45,
+      bkProgressPct: ((this.state.bkStep - 1) / (bkStepsBase.length - 1) * 80) + '%',
+      bkSteps: bkStepsBase.map(st => ({
+        ...st,
+        circleBg: this.state.bkStep === st.n ? '#0B5D52' : (this.state.bkStep > st.n ? '#1DBFA6' : '#fff'),
+        circleFg: this.state.bkStep === st.n ? '#fff' : (this.state.bkStep > st.n ? '#0B5D52' : '#9AA6B8'),
+        circleBorder: this.state.bkStep >= st.n ? 'transparent' : 'rgba(13,122,108,.2)',
+        circleShadow: this.state.bkStep === st.n ? '0 0 0 4px rgba(29,191,166,.3)' : 'none',
+        labelColor: this.state.bkStep >= st.n ? '#0B5D52' : '#9AA6B8',
+        onClick: this.setBkStep(st.n),
+        numDisplay: this.state.bkStep > st.n ? 'none' : 'flex',
+        checkDisplay: this.state.bkStep > st.n ? 'flex' : 'none'
+      })),
+      bkModalidad: this.state.bkModalidad,
+      setBkModHogar: this.setBkModalidad('hogar'),
+      setBkModOficina: this.setBkModalidad('oficina'),
+      bkModHogarBg: this.state.bkModalidad === 'hogar' ? '#0B5D52' : '#fff',
+      bkModHogarFg: this.state.bkModalidad === 'hogar' ? '#fff' : '#0B5D52',
+      bkModHogarBorder: this.state.bkModalidad === 'hogar' ? '#0B5D52' : 'rgba(13,122,108,.2)',
+      bkModOficinaBg: this.state.bkModalidad === 'oficina' ? '#0B5D52' : '#fff',
+      bkModOficinaFg: this.state.bkModalidad === 'oficina' ? '#fff' : '#0B5D52',
+      bkModOficinaBorder: this.state.bkModalidad === 'oficina' ? '#0B5D52' : 'rgba(13,122,108,.2)',
+      toggleBkMode: this.toggleBkMode,
+      bkModeRecurrenteBg: this.state.bkMode === 'recurrente' ? '#0B5D52' : '#fff',
+      bkModeRecurrenteFg: this.state.bkMode === 'recurrente' ? '#fff' : '#0B5D52',
+      bkModeRecurrenteBorder: this.state.bkMode === 'recurrente' ? '#0B5D52' : 'rgba(13,122,108,.2)',
+      isBkRecurrente: this.state.bkMode === 'recurrente',
+      bkServiceCards: this.SERVICES.filter(s => s.category === this.state.bkModalidad).map(s => ({
+        name: s.name, tag: s.tag, price: s.price, per: s.per,
+        selected: s.name === b.service,
+        cardBorder: s.name === b.service ? '#0B5D52' : 'rgba(13,122,108,.14)',
+        cardBg: s.name === b.service ? '#E1F7F2' : '#fff',
+        select: this.selectService(s.name),
+        openDetail: this.openDetail(s.name)
+      })),
+      bkModalidadLabel: svc.category === 'oficina' ? 'Oficina' : 'Hogar',
+      bkDireccion: (b.ciudad || b.direccion) ? [b.ciudad, b.direccion].filter(Boolean).join(' · ') : 'Por definir',
+      heroBg: './uploads/final1-hero.jpg?v=4',
+      serviceNames: this.SERVICES.map(s => s.name),
+      benefits: this.BENEFITS.map((b, i) => ({ ...b, num: String(i + 1).padStart(2, '0') })),
+      steps: this.STEPS,
+      contacts: this.CONTACTS,
+      socials: ['at-sign', 'camera', 'briefcase', 'send'],
+      b,
+      h: { service: this.field('service'), fecha: this.field('fecha'), ciudad: this.field('ciudad'), nombre: this.field('nombre'), telefono: this.field('telefono'), correo: this.field('correo'), direccion: this.field('direccion'), obs: this.field('obs'), area: this.field('area'), banos: this.field('banos'), pisos: this.field('pisos'), indicaciones: this.field('indicaciones'), minuta: this.field('minuta') },
+      timeSlots: this.SLOTS.map(t => {
+        const on = b.hora === t;
+        return { label: t + (parseInt(t) < 7 ? ' PM' : ' AM'), onClick: this.pickTime(t), bg: on ? 'linear-gradient(135deg,#7EE0D0,#1DBFA6)' : '#F3FBFA', fg: '#0B5D52', border: on ? 'transparent' : 'rgba(13,122,108,.16)' };
+      }),
+      summaryFecha: this.fmtDate(b.fecha),
+      summaryHora: b.hora ? (b.hora + (parseInt(b.hora) < 7 ? ' PM' : ' AM')) : 'Por definir',
+      summaryExperta: b.experta || 'Aurora asigna',
+      summaryDur: svc.dur,
+      summaryPrice: svc.price + ' ' + svc.per,
+      booked: this.state.booked,
+      submitBooking: this.submitBooking,
+      faqs: this.FAQS.map((f, i) => ({ ...f, onClick: this.setFaq(i), rotate: this.state.faq === i ? 'rotate(45deg)' : 'rotate(0deg)', maxh: this.state.faq === i ? '220px' : '0px' })),
+      detailOpen: this.state.detailOpen,
+      closeDetail: this.closeDetail,
+      detailName: detailSvc.name,
+      detailTag: detailSvc.tag,
+      detailPrice: detailSvc.price,
+      detailPer: detailSvc.per,
+      detailTasks: detailSvc.tasks,
+      detailReserve: this.detailReserve
+    };
+  }
+}
+</script>
+</body>
+</html>
