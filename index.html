@@ -541,7 +541,10 @@
               <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Teléfono
                 <input class="field" placeholder="+57 ___ ___ ____" value="{{ b.telefono }}" onChange="{{ h.telefono }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px" />
               </label>
-              <label style="grid-column:1 / -1;display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Correo
+              <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Número de cédula
+                <input class="field" placeholder="Ej. 1017123456" value="{{ b.cedula }}" onChange="{{ h.cedula }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px" />
+              </label>
+              <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">Correo
                 <input class="field" placeholder="correo@ejemplo.com" value="{{ b.correo }}" onChange="{{ h.correo }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px" />
               </label>
               <label style="grid-column:1 / -1;display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52">¿Algo que el asistente deba saber?
@@ -687,7 +690,7 @@
           <sc-if value="{{ booked }}" hint-placeholder-val="{{ false }}">
             <div style="margin-top:20px;padding:16px 18px;border-radius:16px;background:#e9f7ec;color:#2E7D32;display:flex;align-items:center;gap:12px">
               <i data-lucide="party-popper" style="font-size:22px"></i>
-              <div><div style="font-weight:700;font-size:14.5px">¡Reserva enviada!</div><div style="font-size:13px;margin-top:2px">Te contactaremos muy pronto para confirmar los detalles.</div></div>
+              <div><div style="font-weight:700;font-size:14.5px">¡Pago confirmado y reserva enviada!</div><div style="font-size:13px;margin-top:2px">Pagaste con {{ paymentBank }}. Te contactaremos muy pronto para confirmar los detalles.</div></div>
             </div>
             <button type="button" onClick="{{ closeBooking }}" class="lbtn" style="margin-top:16px;width:100%;padding:12px 28px;border-radius:100px;background:#0B5D52;color:#fff;font-weight:700;font-size:14.5px;border:none;cursor:pointer">Cerrar</button>
           </sc-if>
@@ -704,6 +707,54 @@
       </sc-if>
       </sc-if><!-- /bkGatePassed -->
 
+    </div>
+  </div>
+</sc-if>
+
+<!-- ============ PASARELA DE PAGO (estilo PSE) ============ -->
+<sc-if value="{{ paymentOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closePayment }}" style="position:fixed;inset:0;z-index:265;background:rgba(6,62,56,.72);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;animation:fadeUp .25s both">
+    <div onClick="{{ stopProp }}" class="glass-card" style="position:relative;width:min(480px,100%);max-height:92vh;overflow-y:auto;background:rgba(255,255,255,.72);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);border:1px solid rgba(255,255,255,.5);border-radius:24px;padding:32px;box-shadow:0 30px 70px rgba(11,93,82,.28)">
+      <button type="button" onClick="{{ closePayment }}" style="position:absolute;top:18px;right:18px;display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:12px;border:1px solid rgba(13,122,108,.14);background:#fff;color:#0B5D52;cursor:pointer"><i data-lucide="x" style="font-size:18px"></i></button>
+
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:#0B5D52;color:#1DBFA6"><i data-lucide="shield-check" style="font-size:22px"></i></span>
+        <div><h3 style="font-size:19px;font-weight:800">Pasarela de pago</h3><p style="margin-top:2px;font-size:13px;color:#596579">Confirma tus datos y elige tu banco.</p></div>
+      </div>
+
+      <div style="margin-top:20px;padding:16px 18px;border-radius:14px;background:#E1F7F2;display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:12.5px;font-weight:600;color:#0D7A6C">Total a pagar</span>
+        <span style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:22px;color:#0B5D52">{{ summaryPrice }}</span>
+      </div>
+
+      <h4 style="margin-top:22px;font-size:13px;font-weight:700;color:#596579;text-transform:uppercase;letter-spacing:.05em">Datos del titular</h4>
+      <div style="display:flex;flex-direction:column;gap:2px;margin-top:10px">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px dashed rgba(13,122,108,.14)"><span style="display:flex;align-items:center;gap:8px;color:#596579;font-size:13px"><i data-lucide="user" style="font-size:14px;color:#0D7A6C"></i> Nombre completo</span><span style="font-weight:700;font-size:13px;color:#0B5D52;text-align:right">{{ b.nombre }}</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px dashed rgba(13,122,108,.14)"><span style="display:flex;align-items:center;gap:8px;color:#596579;font-size:13px"><i data-lucide="id-card" style="font-size:14px;color:#0D7A6C"></i> Cédula</span><span style="font-weight:700;font-size:13px;color:#0B5D52">{{ b.cedula }}</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px dashed rgba(13,122,108,.14)"><span style="display:flex;align-items:center;gap:8px;color:#596579;font-size:13px"><i data-lucide="smartphone" style="font-size:14px;color:#0D7A6C"></i> Celular</span><span style="font-weight:700;font-size:13px;color:#0B5D52">{{ b.telefono }}</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0"><span style="display:flex;align-items:center;gap:8px;color:#596579;font-size:13px"><i data-lucide="mail" style="font-size:14px;color:#0D7A6C"></i> Correo</span><span style="font-weight:700;font-size:13px;color:#0B5D52;text-align:right">{{ b.correo }}</span></div>
+      </div>
+
+      <label style="display:flex;flex-direction:column;gap:8px;font-size:13.5px;font-weight:600;color:#0B5D52;margin-top:22px">Banco a pagar
+        <select class="field" value="{{ paymentBank }}" onChange="{{ setBank }}" style="padding:13px 14px;border-radius:13px;border:1px solid rgba(13,122,108,.16);background:#F3FBFA;color:#0B5D52;font-size:15px">
+          <option value="">Selecciona tu banco</option>
+          <option value="Bancolombia">Bancolombia</option>
+          <option value="Banco de Bogotá">Banco de Bogotá</option>
+          <option value="Davivienda">Davivienda</option>
+          <option value="BBVA Colombia">BBVA Colombia</option>
+          <option value="Banco de Occidente">Banco de Occidente</option>
+          <option value="Banco Popular">Banco Popular</option>
+          <option value="Banco Caja Social">Banco Caja Social</option>
+          <option value="Banco Agrario">Banco Agrario</option>
+          <option value="Scotiabank Colpatria">Scotiabank Colpatria</option>
+          <option value="Banco AV Villas">Banco AV Villas</option>
+          <option value="Nequi">Nequi</option>
+          <option value="Daviplata">Daviplata</option>
+        </select>
+      </label>
+
+      <button type="button" onClick="{{ confirmPayment }}" class="lbtn" style="margin-top:22px;width:100%;padding:14px;border-radius:100px;background:#0B5D52;color:#fff;font-weight:700;font-size:15px;border:none;cursor:pointer;opacity:{{ paymentPayOpacity }};display:flex;align-items:center;justify-content:center;gap:8px"><i data-lucide="lock" style="font-size:16px"></i> Pagar {{ summaryPrice }}</button>
+      <p style="margin-top:12px;font-size:11.5px;color:#596579;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px"><i data-lucide="shield-check" style="font-size:13px"></i> Conexión segura · tus datos están protegidos</p>
     </div>
   </div>
 </sc-if>
@@ -1336,7 +1387,9 @@ class Component extends DCLogic {
     bkMode: 'horas',
     detailOpen: false,
     detailService: null,
-    b: { service: 'Limpieza de hogar · 6 horas', fecha: '', hora: '', ciudad: '', direccion: '', area: '', banos: '', pisos: '', indicaciones: '', minuta: '', nombre: '', telefono: '', correo: '', obs: '', experta: '' }
+    paymentOpen: false,
+    paymentBank: '',
+    b: { service: 'Limpieza de hogar · 6 horas', fecha: '', hora: '', ciudad: '', direccion: '', area: '', banos: '', pisos: '', indicaciones: '', minuta: '', nombre: '', telefono: '', correo: '', cedula: '', obs: '', experta: '' }
   };
 
   PX = (id, w) => 'https://images.pexels.com/photos/' + id + '/pexels-photo-' + id + '.jpeg?auto=compress&cs=tinysrgb&w=' + w;
@@ -1522,7 +1575,7 @@ class Component extends DCLogic {
     }));
   };
   continueAsGuest = () => this.setState({ bkGateDismissed: true });
-  closeBooking = () => this.setState({ bkOpen: false, bkStep: 1, booked: false });
+  closeBooking = () => this.setState({ bkOpen: false, bkStep: 1, booked: false, paymentOpen: false, paymentBank: '' });
   stopProp = (e) => { if (e && e.stopPropagation) e.stopPropagation(); };
   openDetail = (name) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ detailOpen: true, detailService: name }); };
   closeDetail = () => this.setState({ detailOpen: false });
@@ -1539,12 +1592,15 @@ class Component extends DCLogic {
   prevBk = () => this.setState(s => ({ bkStep: Math.max(1, s.bkStep - 1) }));
   nextBk = () => {
     const st = this.state;
-    if (st.bkStep === 2 && !(st.b.nombre && st.b.telefono)) return;
+    if (st.bkStep === 2 && !(st.b.nombre && st.b.telefono && st.b.cedula)) return;
     if (st.bkStep === 3 && !(st.b.ciudad && st.b.direccion)) return;
     if (st.bkStep === 4 && !(st.b.fecha && st.b.hora)) return;
-    if (st.bkStep === 5) { this.setState({ booked: true }); return; }
+    if (st.bkStep === 5) { this.setState({ paymentOpen: true }); return; }
     this.setState(s => ({ bkStep: s.bkStep + 1 }));
   };
+  closePayment = () => this.setState({ paymentOpen: false });
+  setBank = (e) => { const v = e.target.value; this.setState({ paymentBank: v }); };
+  confirmPayment = () => { if (!this.state.paymentBank) return; this.setState({ paymentOpen: false, booked: true }); };
 
   lastScrollY = 0;
 
@@ -1596,7 +1652,7 @@ class Component extends DCLogic {
     const svc = this.SERVICES.find(s => s.name === b.service) || this.SERVICES[0];
     const detailSvc = this.SERVICES.find(s => s.name === this.state.detailService) || this.SERVICES[0];
     const nextAppt = this.MY_APPOINTMENTS.find(a => a.when === 'future') || null;
-    const bkReady = this.state.bkStep === 2 ? !!(b.nombre && b.telefono)
+    const bkReady = this.state.bkStep === 2 ? !!(b.nombre && b.telefono && b.cedula)
       : this.state.bkStep === 3 ? !!(b.ciudad && b.direccion)
       : this.state.bkStep === 4 ? !!(b.fecha && b.hora)
       : true;
@@ -1836,7 +1892,7 @@ class Component extends DCLogic {
       bkBackVisibility: this.state.bkStep > 1 ? 'visible' : 'hidden',
       prevBk: this.prevBk,
       nextBk: this.nextBk,
-      bkNextLabel: this.state.bkStep === 5 ? 'Confirmar reserva' : 'Continuar',
+      bkNextLabel: this.state.bkStep === 5 ? 'Pagar' : 'Continuar',
       bkNextOpacity: bkReady ? 1 : .45,
       bkProgressPct: ((this.state.bkStep - 1) / (bkStepsBase.length - 1) * 80) + '%',
       bkSteps: bkStepsBase.map(st => ({
@@ -1881,7 +1937,13 @@ class Component extends DCLogic {
       contacts: this.CONTACTS,
       socials: ['at-sign', 'camera', 'briefcase', 'send'],
       b,
-      h: { service: this.field('service'), fecha: this.field('fecha'), ciudad: this.field('ciudad'), nombre: this.field('nombre'), telefono: this.field('telefono'), correo: this.field('correo'), direccion: this.field('direccion'), obs: this.field('obs'), area: this.field('area'), banos: this.field('banos'), pisos: this.field('pisos'), indicaciones: this.field('indicaciones'), minuta: this.field('minuta') },
+      h: { service: this.field('service'), fecha: this.field('fecha'), ciudad: this.field('ciudad'), nombre: this.field('nombre'), telefono: this.field('telefono'), correo: this.field('correo'), cedula: this.field('cedula'), direccion: this.field('direccion'), obs: this.field('obs'), area: this.field('area'), banos: this.field('banos'), pisos: this.field('pisos'), indicaciones: this.field('indicaciones'), minuta: this.field('minuta') },
+      paymentOpen: this.state.paymentOpen,
+      closePayment: this.closePayment,
+      paymentBank: this.state.paymentBank,
+      setBank: this.setBank,
+      confirmPayment: this.confirmPayment,
+      paymentPayOpacity: this.state.paymentBank ? 1 : .5,
       timeSlots: this.SLOTS.map(t => {
         const on = b.hora === t;
         return { label: t + (parseInt(t) < 7 ? ' PM' : ' AM'), onClick: this.pickTime(t), bg: on ? 'linear-gradient(135deg,#7EE0D0,#1DBFA6)' : '#F3FBFA', fg: '#0B5D52', border: on ? 'transparent' : 'rgba(13,122,108,.16)' };
